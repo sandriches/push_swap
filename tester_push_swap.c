@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/05/08 11:50:38 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/05/08 16:15:36 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_arrays(p_a *ps)
 		if (ps->a[x] == 0)
 			ft_printf("|   ");
 		else
-			ft_printf("| %c ", ps->a[x] + 48);
+			ft_printf("| {/}%c{BLUE} ", ps->a[x] + 48);
 		x++;
 	}
 	x = 0;
@@ -82,7 +82,7 @@ void	print_arrays(p_a *ps)
 		if (ps->b[x] == 0)
 			ft_printf("|   ");
 		else
-			ft_printf("| %c ", ps->b[x] + 48);
+			ft_printf("| {/}%c{RED} ", ps->b[x] + 48);
 		x++;
 	}
 	x = 0;
@@ -95,7 +95,29 @@ void	print_arrays(p_a *ps)
 	ft_printf("{/}\n\n\n");
 }
 
-m_struct	*make_struct(int data)
+void	start_program(p_a *ps)
+{
+	int		ret;
+	int		command;
+	char	str[25];
+
+	ret = 0;
+	while (ft_strcmp(str, "q") != 0)
+	{
+		ft_strclr(str);
+		print_arrays(ps);
+		ft_printf("Moves made: %d\n\n", ret);
+		ft_printf("[q to quit] ENTER COMMAND: ");
+		scanf("%s", str);
+		command = command_to_op(str, ps);
+		if (command == 1)
+			ret++;
+		if (ft_strcmp(str, "-") == 0)
+			ret--;
+	}
+}
+
+static m_struct		*make_struct(int data)
 {
 	m_struct *rtn_struct;
 
@@ -108,11 +130,28 @@ m_struct	*make_struct(int data)
 
 int			find_original_order(m_struct *node, int data)
 {
+	if (!node)
+		return (-1);
 	if (node->data == data)
 		return (node->original_order);
-	if (node->lower == NULL)
-		find_original_order(node->higher, data);
-	find_original_order(node->lower, data);
+	else if (node->data < data && node->higher != NULL)
+		return (find_original_order(node->higher, data));
+	else if (node->data > data && node->lower != NULL)
+		return (find_original_order(node->lower, data));
+	return (-1);
+}
+
+int			find_new_data(m_struct *node, int order)
+{
+	if (!node)
+		return (-1);
+	if (node->original_order == order)
+		return (node->data);
+	else if (node->original_order < order && node->higher != NULL)
+		return (find_original_order(node->higher, order));
+	else if (node->original_order > order && node->lower != NULL)
+		return (find_original_order(node->lower, order));
+	return (-1);
 }
 
 void		traverse_tree(m_struct *iterate, m_struct *new)
@@ -170,31 +209,23 @@ void	fill_arrays(p_a *ps, char **args)
 	x = 1;
 	while (x < ps->size + 1)
 	{
-		ps->a[x - 1] = ft_atoi(args[x]);
-		ps->b[x - 1] = 0;
+		ps->original_a[x - 1] = ft_atoi(args[x]);
+		ps->original_b[x - 1] = 0;
 		x++;
 	}
 }
 
-void	start_program(p_a *ps)
+void	fill_ordered_arrays(m_struct *node, p_a *ps)
 {
-	int		ret;
-	int		command;
-	char	str[25];
+	int ordered_number;
+	int x;
 
-	ret = 0;
-	while (ft_strcmp(str, "q") != 0)
+	x = 0;
+	while (x < ps->size)
 	{
-		ft_strclr(str);
-		print_arrays(ps);
-		ft_printf("Moves made: %d\n\n", ret);
-		ft_printf("[q to quit] ENTER COMMAND: ");
-		scanf("%s", str);
-		command = command_to_op(str, ps);
-		if (command == 1)
-			ret++;
-		if (ft_strcmp(str, "-") == 0)
-			ret--;
+		ft_printf("result from search: %d\n", find_new_data(node, ps->original_a[x]));
+		ps->a[x] = find_new_data(node, ps->original_a[x]);
+		x++;
 	}
 }
 
@@ -213,28 +244,18 @@ void	start_struct(int argc, char **args)
 	ps->temp = 0;
 	ps->a = (int *)malloc(sizeof(int) * ps->size);
 	ps->b = (int *)malloc(sizeof(int) * ps->size);
+	ps->original_a = (int *)malloc(sizeof(int) * ps->size);
+	ps->original_b = (int *)malloc(sizeof(int) * ps->size);
 	fill_arrays(ps, args);
 	head = make_tree(ps, head);
+	fill_ordered_arrays(head, ps);
 	add_order(head);
-	ft_printf("head data: %d\thead->order: %d\n", head->data, head->order);
-	ft_printf("find original order result: %d\n", find_original_order(head, ps->a[0]));
-	ft_printf("ps->a[1]: %d\n", ps->a[1]);
-	ft_printf("find orig order result: %d\n", find_original_order(head, 2));
-//	while (x < ps->size)
-//	{
-/*		place_in_position = find_original_order(head, ps->a[0]);
-		ft_printf("DATA: %d | PLACE IN POSITION: %d\n", ps->a[0], place_in_position);
-		place_in_position = find_original_order(head, ps->a[1]);
-		ft_printf("DATA: %d | PLACE IN POSITION: %d\n", ps->a[1], place_in_position);
-		place_in_position = find_original_order(head, ps->a[2]);
-		ft_printf("DATA: %d | PLACE IN POSITION: %d\n", ps->a[2], place_in_position);
-		x++;
-//	}*/
-//	start_program(push_struct);
+//	print_arrays(ps);
+//	start_program(ps);
 }
 
 int	main(int argc, char **argv)
 {
 	start_struct(argc, argv);
 	return (0);
-} 
+}
