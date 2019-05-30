@@ -15,5 +15,5 @@ SOURCES= tester_push_swap.c do_ops.c libft/libft.a libftprintf.a
 
 all:
 	gcc -g -Wall -Wextra $(SOURCES) -o $(NAME)
-	./push_swap 7 2 9 4 1 8 5 3
+	./push_swap 7 2 9 3 1 5
 

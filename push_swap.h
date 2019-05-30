@@ -13,23 +13,14 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stdio.h>
 # include <stdlib.h>
 # include "ft_printf.h"
-
-typedef struct	data_order
-{
-	int data;
-	int order;
-}				data_order;
+# include <time.h>
 
 typedef struct	push_swap
 {
-	int *original_order;
 	int	*a;
 	int	*b;
-	int *original_a;
-	int *original_b;
 	int size;
 	int temp;
 }				p_a;

@@ -18,14 +18,16 @@ void	ft_int_mem_move(int *dst, int *src, int len)
 
 	x = 0;
 	if ((size_t)src > (size_t)dst)
+	{
 		while (x < len)
 		{
 			dst[x] = src[x];
 			x++;
 		}
+	}
 	else
 	{
-		len--;
+		len-= 2;
 		while (len >= 0)
 		{
 			dst[len] = src[len];
@@ -74,91 +76,91 @@ void	ft_rev_int_mem_move(int *dst, int *src, int len, int temp)
 	}
 }
 
-void	push_a(p_a *push_struct)
+void	push_a(p_a *pa)
 {
-	if (push_struct->b[0] != 0)
+	if (pa->b[0] != 0)
 	{
-		push_struct->temp = push_struct->b[0];
-		ft_int_mem_move(&push_struct->b[0], &push_struct->b[1], push_struct->size);
-		push_struct->b[push_struct->size - 1] = 0;
-		ft_int_mem_move(&push_struct->a[1], &push_struct->a[0], push_struct->size);
-		push_struct->a[0] = push_struct->temp;
+		pa->temp = pa->b[0];
+		ft_int_mem_move(&pa->b[0], &pa->b[1], pa->size);
+		pa->b[pa->size - 1] = 0;
+		ft_int_mem_move(&pa->a[1], &pa->a[0], pa->size);
+		pa->a[0] = pa->temp;
 	}
 }
 
-void	push_b(p_a *push_struct)
+void	push_b(p_a *pa)
 {
-	if (push_struct->a[0] != 0)
+	if (pa->a[0] != 0)
 	{
-		push_struct->temp = push_struct->a[0];
-		ft_int_mem_move(&push_struct->a[0], &push_struct->a[1], push_struct->size);
-		push_struct->a[push_struct->size - 1] = 0;
-		ft_int_mem_move(&push_struct->b[1], &push_struct->b[0], push_struct->size);
-		push_struct->b[0] = push_struct->temp;
+		pa->temp = pa->a[0];
+		ft_int_mem_move(&pa->a[0], &pa->a[1], pa->size);
+		pa->a[pa->size - 1] = 0;
+		ft_int_mem_move(&pa->b[1], &pa->b[0], pa->size);
+		pa->b[0] = pa->temp;
 	}
 }
 
-void	swap_a(p_a *push_struct)
+void	swap_a(p_a *pa)
 {
-	if (find_length(push_struct->a, push_struct->size) > 1)
+	if (find_length(pa->a, pa->size) > 1)
 	{
-		push_struct->temp = push_struct->a[0];
-		push_struct->a[0] = push_struct->a[1];
-		push_struct->a[1] = push_struct->temp;
+		pa->temp = pa->a[0];
+		pa->a[0] = pa->a[1];
+		pa->a[1] = pa->temp;
 	}
 }
 
-void	swap_b(p_a *push_struct)
+void	swap_b(p_a *pa)
 {
-	if (find_length(push_struct->b, push_struct->size) > 1)
+	if (find_length(pa->b, pa->size) > 1)
 	{
-		push_struct->temp = push_struct->b[0];
-		push_struct->b[0] = push_struct->b[1];
-		push_struct->b[1] = push_struct->temp;
+		pa->temp = pa->b[0];
+		pa->b[0] = pa->b[1];
+		pa->b[1] = pa->temp;
 	}
 }
 
-void	rotate_a(p_a *push_struct)
+void	rotate_a(p_a *pa)
 {
-	if (push_struct->a[0] != 0)
+	if (pa->a[0] != 0)
 	{
-		push_struct->temp = push_struct->a[0];
-		ft_rev_int_mem_move(&push_struct->a[0], &push_struct->a[1], push_struct->size, \
-		push_struct->temp);
+		pa->temp = pa->a[0];
+		ft_rev_int_mem_move(&pa->a[0], &pa->a[1], pa->size, \
+		pa->temp);
 	}
 }
 
-void	rotate_b(p_a *push_struct)
+void	rotate_b(p_a *pa)
 {
-	if (push_struct->b[0] != 0)
+	if (pa->b[0] != 0)
 	{
-		push_struct->temp = push_struct->b[0];
-		ft_rev_int_mem_move(&push_struct->b[0], &push_struct->b[1], push_struct->size, \
-		push_struct->temp);
+		pa->temp = pa->b[0];
+		ft_rev_int_mem_move(&pa->b[0], &pa->b[1], pa->size, \
+		pa->temp);
 	}
 }
 
-void	reverse_a(p_a *push_struct)
+void	reverse_a(p_a *pa)
 {
 	int len;
 
-	if (push_struct->a[0] != 0)
+	if (pa->a[0] != 0)
 	{
-		len = find_length(push_struct->a, push_struct->size);
-		push_struct->temp = push_struct->a[len - 1];
-		ft_rev_int_mem_move(&push_struct->a[1], &push_struct->a[0], push_struct->size, \
-		push_struct->temp);
-		push_struct->a[0] = push_struct->temp;
+		len = find_length(pa->a, pa->size);
+		pa->temp = pa->a[len - 1];
+		ft_rev_int_mem_move(&pa->a[1], &pa->a[0], pa->size, \
+		pa->temp);
+		pa->a[0] = pa->temp;
 	}
 }
 
-void	reverse_b(p_a *push_struct)
+void	reverse_b(p_a *pa)
 {
 	int len;
 
-	len = find_length(push_struct->b, push_struct->size);
-	push_struct->temp = push_struct->b[len - 1];
-	ft_rev_int_mem_move(&push_struct->b[1], &push_struct->b[0], push_struct->size, \
-	push_struct->temp);
-	push_struct->b[0] = push_struct->temp;
+	len = find_length(pa->b, pa->size);
+	pa->temp = pa->b[len - 1];
+	ft_rev_int_mem_move(&pa->b[1], &pa->b[0], pa->size, \
+	pa->temp);
+	pa->b[0] = pa->temp;
 }
