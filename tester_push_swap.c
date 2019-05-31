@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/05/08 16:15:36 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/05/31 18:43:27 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,6 +276,28 @@ void	convert_from_originals(m_struct *node, p_a *ps)
 	}
 }
 
+static int		lookahead_median_split(int *stack, char sign, int median)
+{
+	int x;
+
+	x = 0;
+	while (stack[x] != 0)
+	{
+		if (sign == '>')
+		{
+			if (stack[x] > median)
+				return (0);
+		}
+		else
+		{
+			if (stack[x] < median)
+				return (0);
+		}
+		x++;
+	}
+	return (1);
+}
+
 void	sort_by_median(p_a *ps, char which_stack)
 {
 	int x;
@@ -284,13 +306,15 @@ void	sort_by_median(p_a *ps, char which_stack)
 
 	size = (which_stack == 'a') ? find_size(ps->a) : find_size(ps->b);
 	median = (which_stack == 'a') ? find_median(ps->a, size) : find_median(ps->b, size);
-//	ft_printf("median: %d\n", median);
+	ft_printf("median: %d\n", median);
 	x = 0;
 	while (x < ps->size)
 	{
 		if (which_stack == 'a')
 		{
-			if (ps->a[0] > median)
+			if (lookahead_median_split(ps->a, '<', median) == 1)
+				break ;
+			if (ps->a[0] < median)
 			{
 				push_b(ps);
 				print_arrays(ps);
@@ -303,7 +327,9 @@ void	sort_by_median(p_a *ps, char which_stack)
 		}
 		else
 		{
-			if (ps->b[0] < median)
+			if (lookahead_median_split(ps->b, '>', median) == 1)
+				break ;
+			if (ps->b[0] > median)
 			{
 				push_a(ps);
 				print_arrays(ps);
@@ -353,7 +379,7 @@ static int		is_finished(p_a *ps)
 	return (0);
 }
 
-void	sort_finished(p_a *ps, char which_stack)
+void	sort_2_or_3_alone(p_a *ps, char which_stack)
 {
 	int temp;
 	int size;
@@ -362,24 +388,24 @@ void	sort_finished(p_a *ps, char which_stack)
 	size = (which_stack == 'a') ? find_size(ps->a) : find_size(ps->b);
 	if (which_stack == 'b')
 	{
-		if (size == 2 && ps->b[0] > ps->b[1])
+		if (size == 2 && ps->b[0] < ps->b[1])
 		{
 			swap_b(ps);
 			print_arrays(ps);
 		}
 		else if (size == 3)
 		{
-			if (ps->b[0] > ps->b[1] && ps->b[0] > ps->b[2])
+			if (ps->b[0] < ps->b[1] && ps->b[0] < ps->b[2])
 			{
 				rotate_b(ps);
 				print_arrays(ps);
 			}
-			else if (ps->b[1] > ps->b[0] && ps->b[2])
+			else if (ps->b[1] < ps->b[0] && ps->b[2])
 			{
 				reverse_b(ps);
 				print_arrays(ps);
 			}
-			if (ps->b[0] > ps->b[1])
+			if (ps->b[0] < ps->b[1])
 			{
 				swap_b(ps);
 				print_arrays(ps);
@@ -388,24 +414,24 @@ void	sort_finished(p_a *ps, char which_stack)
 	}
 	else
 	{
-		if (size == 2 && ps->a[0] < ps->a[1])
+		if (size == 2 && ps->a[0] > ps->a[1])
 		{
 			swap_a(ps);
 			print_arrays(ps);
 		}
 		else if (size == 3)
 		{
-			if (ps->a[0] < ps->a[1] && ps->a[0] < ps->a[2])
+			if (ps->a[0] > ps->a[1] && ps->a[0] > ps->a[2])
 			{
 				rotate_a(ps);
 				print_arrays(ps);
 			}
-			else if (ps->a[1] < ps->a[0] && ps->a[2])
+			else if (ps->a[1] > ps->a[0] && ps->a[2])
 			{
 				reverse_b(ps);
 				print_arrays(ps);
 			}
-			if (ps->a[0] < ps->a[1])
+			if (ps->a[0] > ps->a[1])
 			{
 				swap_a(ps);
 				print_arrays(ps);
@@ -413,21 +439,43 @@ void	sort_finished(p_a *ps, char which_stack)
 		}
 	}
 }
-
-void	start_sort(p_a *ps)
+static void		push_rest_to_a(p_a *ps)
 {
-	while (is_finished(ps) == 0)
+	int x;
+
+	x = 0;
+	while (ps->b[x] != 0)
+		push_a(ps);
+}
+
+static int		start_sort(p_a *ps)
+{
+	static int i;
+
+	if (!i)
+		i = 0;
+	if (is_finished(ps) == 1)
+		return (1);
+	if (is_ordered_ascending(ps->a) == 1 && is_ordered_descending(ps->b) == 1)
+		push_rest_to_a(ps);
+	else if (is_ordered_descending(ps->b) == 0 && (find_length(ps->b, ps->size) > 1 && find_length(ps->b, ps->size) < 4))
 	{
-		if (find_size(ps->b) <= ps->size / 2)
-		{
-			sort_finished(ps, 'b');
-		}
-		else if (find_size(ps->a) <= ps->size / 2)
-		{
-			sort_finished(ps, 'a');
-		}
-		sort_by_median(ps, 'a');
+		ft_printf("IF 1\n");
+		sort_2_or_3_alone(ps, 'b');
 	}
+	else if (is_ordered_ascending(ps->a) == 0 && (find_length(ps->a, ps->size) > 1 && find_length(ps->a, ps->size) < 4))
+	{
+		ft_printf("IF 2\n");
+		sort_2_or_3_alone(ps, 'a');
+	}
+	else
+	{
+		ft_printf("IF 3\n");
+		sort_by_median(ps, 'b');
+	}
+	i++;
+	if (i < 5)
+		start_sort(ps);
 }
 
 void	start_struct(int argc, char **args)

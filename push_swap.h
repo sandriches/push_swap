@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/05/08 15:54:25 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/05/31 17:43:53 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void		rotate_a(p_a *push_struct);
 void		rotate_b(p_a *push_struct);
 void		reverse_a(p_a *push_struct);
 void		reverse_b(p_a *push_struct);
+
+int			find_length(int *array, int len);
+
 
 
 # endif
