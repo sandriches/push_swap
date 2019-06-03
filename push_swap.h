@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/05/31 17:43:53 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/03 15:45:21 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ typedef struct	push_swap
 	int	*a;
 	int	*b;
 	int size;
+	int len_a;
+	int len_b;
 	int temp;
+	int ret;
 }				p_a;
 
 typedef struct	find_medium
@@ -45,6 +48,7 @@ void		reverse_a(p_a *push_struct);
 void		reverse_b(p_a *push_struct);
 
 int			find_length(int *array, int len);
+void	print_arrays(p_a *ps);
 
 
 

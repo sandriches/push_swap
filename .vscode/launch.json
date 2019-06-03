@@ -1,0 +1,24 @@
+// Available variables which can be used inside of strings.
+// ${workspaceRoot}: the root folder of the team        
+// ${file}: the current opened file                     
+// ${fileBasename}: the current opened file's basename 
+// ${fileDirname}: the current opened file's dirname    
+// ${fileExtname}: the current opened file's extension  
+// ${cwd}: the current working directory of the spawned process
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(lldb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/push_swap",
+			"args": ["439", "861", "212", "948", "265", "259", "812", "790", "450", "220", "111", "420"], // 9 5 2 7 6 3 1 4 // "2", "1", "7", "5", "10", "3", "4", "8"
+			"stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb"
+        }]
+}
