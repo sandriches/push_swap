@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/04 16:54:03 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/04 18:51:53 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,18 +351,16 @@ static int		find_unordered_ascending(int *stack, int size)
 	return (unordered);
 }
 
-static int		find_position_to_place(p_a *ps, char which_stack)
+static int		find_position_to_place(p_a *ps, char which_stack, int to_place)
 {
 	int x;
-	int median;
 
 	x = 0;
-	median = find_median(ps->a, ps->len_a, '<');
 	if (which_stack == 'a')
 	{
 		while (x < ps->len_a)
 		{
-			if (ps->a[x] < median)
+			if (to_place < ps->a[x])
 				return (x);
 			x++;
 		}
@@ -371,7 +369,7 @@ static int		find_position_to_place(p_a *ps, char which_stack)
 	{
 		while (x < ps->len_b)
 		{
-			if (ps->b[x] > median)
+			if (to_place > ps->b[x])
 				return (x);
 			x++;
 		}
@@ -385,13 +383,18 @@ static void		place_one_a(p_a *ps)
 	int pos_to_place;
 
 	x = 0;
-	if (ps->len_a > 1 && ps->a[0] > ps->a[1])
+	pos_to_place = find_position_to_place(ps, 'a', ps->b[0]);
+	if (pos_to_place == 0)
 	{
-		check_swap(ps, 'a');
+		push_a(ps);
 		return ;
 	}
-	pos_to_place = find_position_to_place(ps, 'a');
-	push_b(ps);
+	else if (pos_to_place == 1)
+	{
+		push_a(ps);
+		check_swap(ps, 'a');
+	}
+//	ft_printf("position to place: %d\tstack size: %d\n", pos_to_place, ps->len_a);
 	if (pos_to_place > ps->len_a / 2)
 	{
 		while (x < pos_to_place)
@@ -414,9 +417,57 @@ static void		place_one_a(p_a *ps)
 			x++;
 		}
 		push_a(ps);
-		while (x >= 0)
+		while (x > 0)
 		{
 			reverse_a(ps);
+			x--;
+		}
+	}
+}
+
+static void		place_one_b(p_a *ps)
+{
+	int x;
+	int pos_to_place;
+
+	x = 0;
+	pos_to_place = find_position_to_place(ps, 'b', ps->a[0]);
+	if (pos_to_place == 0)
+	{
+		push_b(ps);
+		return ;
+	}
+	else if (pos_to_place == 1)
+	{
+		push_b(ps);
+		check_swap(ps, 'b');
+	}
+//	ft_printf("position to place: %d\tstack size: %d\n", pos_to_place, ps->len_b);
+	if (pos_to_place > ps->len_b / 2)
+	{
+		while (x < pos_to_place)
+		{
+			rotate_b(ps);
+			x++;
+		}
+		push_b(ps);
+		while (x >= 0)
+		{
+			reverse_b(ps);
+			x--;
+		}
+	}
+	else
+	{
+		while (x < pos_to_place)
+		{
+			reverse_b(ps);
+			x++;
+		}
+		push_b(ps);
+		while (x > 0)
+		{
+			rotate_b(ps);
 			x--;
 		}
 	}
@@ -442,8 +493,12 @@ void	sort_by_median_a(p_a *ps)
 			break ;
 		else if (ps->a[0] < median)
 		{
-			push_b(ps);
-			pushed++;
+			// if (ps->len_b > 1 && find_unordered_descending(ps->b, ps->len_b) == 0)
+			// {
+			// 	place_one_b(ps);
+			// }
+			// else
+				push_b(ps);
 		}
 		else
 			rotate_a(ps);
@@ -469,19 +524,12 @@ void	sort_by_median_b(p_a *ps)
 			break ;
 		else if (ps->b[0] > median)
 		{
-			if (find_unordered_ascending(ps->a, ps->len_a) != 0)
-			{
-				ft_printf("unordered ascending: %d\n", find_unordered_ascending(ps->a, ps->len_a));
-				push_a(ps);
-			}
-			else
+			if (ps->len_a > 1 && find_unordered_ascending(ps->a, ps->len_a) == 0)
 			{
 				place_one_a(ps);
 			}
-//			if (ps->a[0] > ps->a[1])
-//			{
-//				check_swap(ps, 'a');
-//			}
+			else
+				push_a(ps);
 		}
 		else
 			rotate_b(ps);
