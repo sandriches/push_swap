@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/04 18:51:53 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/05 20:48:58 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ void	start_program(p_a *ps)
 	char	str[25];
 
 	ret = 0;
+	print_arrays(ps);
 	while (ft_strcmp(str, "q") != 0)
 	{
 		ft_strclr(str);
-		print_arrays(ps);
 //		ft_printf("size of a: %d\n", find_size(ps->a));
 		// ft_printf("median: %d\n", find_median(ps->a, find_size(ps->a)));
 		ft_printf("Moves: %d\n\n", ret);
@@ -309,6 +309,21 @@ static int			find_median(int *stack, int size, char sign)
 		y = 0;
 		x++;
 	}
+/*	return (ordered_stack);
+}
+
+static int			find_median(p_a *ps, char which_stack)
+{
+	if (which_stack == 'a')
+	{
+		if (ps->len_a == 1)
+			return (ps->a[0]);
+		if (ps->len_a % 2)
+		{
+
+		}
+	}
+}*/
 	tmp = (size % 2 != 0) ? ordered_stack[size / 2] : ordered_stack[(size / 2) - 1];
 	if (size % 2 == 0)
 	{
@@ -493,14 +508,14 @@ void	sort_by_median_a(p_a *ps)
 			break ;
 		else if (ps->a[0] < median)
 		{
-			// if (ps->len_b > 1 && find_unordered_descending(ps->b, ps->len_b) == 0)
-			// {
-			// 	place_one_b(ps);
-			// }
-			// else
+			if (ps->len_b > 1 && find_unordered_descending(ps->b, ps->len_b) == 0)
+			{
+				place_one_b(ps);
+			}
+			else
 				push_b(ps);
 		}
-		else
+		else 
 			rotate_a(ps);
 		x++;
 	}
@@ -646,12 +661,16 @@ void	start_struct(int argc, char **args)
 	ps->ret = 0;
 	ps->a = (int *)malloc(sizeof(int) * ps->len_a);
 	ps->b = (int *)malloc(sizeof(int) * ps->len_a);
+//	ps->ordered_stack = fill_ordered_stack()
 	ps->print = 1;
 	fill_arrays(ps, args);
 	head = make_tree(ps, head);
 	add_order(head);
-	start_sort(ps);
-	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {GREEN}%d{/}\n", ps->size - 1, ps->ret);
+	print_arrays(ps);
+//	ps_quicksort(ps, 'a');
+	ps_insertion_sort_a(ps);
+//	start_sort(ps);
+	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {GREEN}%d{/}\n", ps->size, ps->ret);
 //	start_program(ps);
 }
 

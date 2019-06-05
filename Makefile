@@ -6,13 +6,14 @@
 #    By: rcorke <rcorke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/01 19:10:09 by rcorke         #+#    #+#                 #
-#    Updated: 2019/06/04 18:50:36 by rcorke        ########   odam.nl          #
+#    Updated: 2019/06/05 21:01:38 by rcorke        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= push_swap
-SOURCES= tester_push_swap.c do_ops.c libft/libft.a libftprintf.a
+SOURCES= tester_push_swap.c do_ops.c libft/libft.a libftprintf.a ps_quicksort.c\
+		ps_insertion_sort.c
 
 all:
 	gcc -g -Wall -Wextra $(SOURCES) -o $(NAME)
-	./push_swap -921	-135	231	-593	-345	-545	607	828	520	-696	-252	74	434	568	-350	-746	-90	67	964	278	622	368	682	-586	927	992	-863	162	308	97	905	-613	-698	-604	823	-796	181	15	52	-988	283	-965	698	-940	495	160	-863	59	-154	536	204	457	-121	110	3	444	673	94	-763	-318	821	-137	44	71	-929	-70	-316	255	-246	-916	-302	-597	-111	-653	955	642	123	-565	883	-611	695	485	-128	382	-268	-718	-207
+	./push_swap 5 2 1 4 3 -400 -2 -42 -222 -100 400 2002 4242 -5235 50 49 29 110 4141 -199 -2522 420

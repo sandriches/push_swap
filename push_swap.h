@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/04 15:00:16 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/05 18:42:17 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct	push_swap
 {
 	int	*a;
 	int	*b;
+	int *sorted_stack;
 	int size;
 	int len_a;
 	int len_b;
@@ -53,8 +54,10 @@ void		reverse_both(p_a *ps);
 
 
 int			find_length(int *array, int len);
-void	print_arrays(p_a *ps);
+void		print_arrays(p_a *ps);
 
+void		ps_quicksort(p_a *ps, char which_stack);
+void		ps_insertion_sort_a(p_a *ps);
 
 
 # endif
