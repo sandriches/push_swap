@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/05 20:48:58 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/06 19:55:57 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ static int			find_median(p_a *ps, char which_stack)
 	return (tmp);
 }
 
-static int		find_unordered_descending(int *stack, int size)
+int				find_unordered_descending(int *stack, int size)
 {
 	int x;
 	int unordered;
@@ -350,7 +350,7 @@ static int		find_unordered_descending(int *stack, int size)
 	return (unordered);
 }
 
-static int		find_unordered_ascending(int *stack, int size)
+int				find_unordered_ascending(int *stack, int size)
 {
 	int x;
 	int	unordered;
@@ -359,7 +359,7 @@ static int		find_unordered_ascending(int *stack, int size)
 	x = 1;
 	while (x < size)
 	{
-		if (stack[x - 1] > stack[x])
+		if (stack[x - 1] < stack[x])
 			unordered++;
 		x++;
 	}
@@ -669,6 +669,7 @@ void	start_struct(int argc, char **args)
 	print_arrays(ps);
 //	ps_quicksort(ps, 'a');
 	ps_insertion_sort_a(ps);
+//	print_arrays(ps);
 //	start_sort(ps);
 	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {GREEN}%d{/}\n", ps->size, ps->ret);
 //	start_program(ps);
