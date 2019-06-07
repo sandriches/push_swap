@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:26:47 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/07 11:58:22 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/07 13:01:28 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static void	initialize_struct(i_s *is, int *stack)
 	is->third_used = 1;
 }
 
-static void	phill_struct(int *value, int *index, int *new_value, int *new_index)
+void		phill_struct(int *value, int *index, int *new_value, int *new_index)
 {
 	*value = *new_value;
 	*index = *new_index;
