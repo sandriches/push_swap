@@ -13,7 +13,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/push_swap",
+            "program": "${workspaceFolder}/a.out",
 			"args": ["861", "212", "948", "265", "259", "812", "790", "450", "220", "111", "420", "3"], // 9 5 2 7 6 3 1 4 // "2", "1", "7", "5", "10", "3", "4", "8"
 			"stopAtEntry": true,
             "cwd": "${workspaceFolder}",

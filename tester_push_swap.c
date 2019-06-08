@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/07 12:39:56 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/08 19:47:46 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,60 +280,6 @@ static void			check_swap(p_a *ps, char which_stack)
 	}	
 }
 
-static int			find_median(int *stack, int size, char sign)
-{
-	int x;
-	int y;
-	int *ordered_stack;
-	int ordered_size;
-	int tmp;
-
-	ordered_stack = (int *)malloc(sizeof(int) * size);
-	ordered_stack = fill_ordered_stack(stack, ordered_stack, size);
-	ordered_size = size - 1;
-	x = 0;
-	y = 0;
-	while (x < size)
-	{
-		while (y < ordered_size)
-		{
-			if (ordered_stack[y] > ordered_stack[y + 1])
-			{
-				tmp = ordered_stack[y];
-				ordered_stack[y] = ordered_stack[y + 1];
-				ordered_stack[y + 1] = tmp;
-			}
-			y++;
-		}
-		ordered_size--;
-		y = 0;
-		x++;
-	}
-/*	return (ordered_stack);
-}
-
-static int			find_median(p_a *ps, char which_stack)
-{
-	if (which_stack == 'a')
-	{
-		if (ps->len_a == 1)
-			return (ps->a[0]);
-		if (ps->len_a % 2)
-		{
-
-		}
-	}
-}*/
-	tmp = (size % 2 != 0) ? ordered_stack[size / 2] : ordered_stack[(size / 2) - 1];
-	if (size % 2 == 0)
-	{
-		if (find_numbers_to_push(stack, tmp, sign, size) * 2 != size)
-			tmp = ordered_stack[(size / 2)];
-	}
-	free(ordered_stack);
-	return (tmp);
-}
-
 int				find_unordered_descending(int *stack, int size)
 {
 	int x;
@@ -497,7 +443,7 @@ void	sort_by_median_a(p_a *ps)
 
 	pushed = 0;
 	loops = ps->len_a;
-	median = find_median(ps->a, ps->len_a, '<');
+	median = find_median(ps->a, ps->len_a);
 //	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
 	x = 0;
 	while (x < loops)
@@ -529,7 +475,7 @@ void	sort_by_median_b(p_a *ps)
 
 	loops = ps->len_b;
 	x = 0;
-	median = find_median(ps->b, ps->len_b, '>');
+	median = find_median(ps->b, ps->len_b);
 //	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
 	while (x < loops)
 	{
@@ -559,35 +505,33 @@ static int		is_finished(p_a *ps)
 	return (0);
 }
 
-void	sort_2_or_3_alone(p_a *ps, char which_stack)
+void	sort_2_or_3_alone_b(p_a *ps)
 {
-	if (which_stack == 'b')
+	if (ps->len_b == 2 && ps->b[0] < ps->b[1])
+		check_swap(ps, 'b');
+	else if (ps->len_b == 3)
 	{
-		if (ps->len_b == 2 && ps->b[0] < ps->b[1])
+		if (ps->b[0] < ps->b[1] && ps->b[0] < ps->b[2])
+			rotate_b(ps);
+		else if (ps->b[1] < ps->b[0] && ps->b[1] < ps->b[2])
+			reverse_b(ps);
+		if (ps->b[0] < ps->b[1])
 			check_swap(ps, 'b');
-		else if (ps->len_b == 3)
-		{
-			if (ps->b[0] < ps->b[1] && ps->b[0] < ps->b[2])
-				rotate_b(ps);
-			else if (ps->b[1] < ps->b[0] && ps->b[1] < ps->b[2])
-				reverse_b(ps);
-			if (ps->b[0] < ps->b[1])
-				check_swap(ps, 'b');
-		}
 	}
-	else
+}
+
+void	sort_2_or_3_alone_a(p_a *ps)
+{
+	if (ps->len_a == 2 && ps->a[0] > ps->a[1])
+		check_swap(ps, 'a');
+	else if (ps->len_a == 3)
 	{
-		if (ps->len_a == 2 && ps->a[0] > ps->a[1])
+		if (ps->a[0] > ps->a[1] && ps->a[0] > ps->a[2])
+			rotate_a(ps);
+		else if (ps->a[1] > ps->a[0] && ps->a[1] > ps->a[2])
+			reverse_a(ps);
+		if (ps->a[0] > ps->a[1])
 			check_swap(ps, 'a');
-		else if (ps->len_a == 3)
-		{
-			if (ps->a[0] > ps->a[1] && ps->a[0] > ps->a[2])
-				rotate_a(ps);
-			else if (ps->a[1] > ps->a[0] && ps->a[1] > ps->a[2])
-				reverse_a(ps);
-			if (ps->a[0] > ps->a[1])
-				check_swap(ps, 'a');
-		}
 	}
 }
 
@@ -602,43 +546,40 @@ static void		push_rest_to_a(p_a *ps)
 
 static void		start_sort(p_a *ps)
 {
-//	static int i;
-	int ordered_a;
-	int ordered_b;
+	int unordered_a;
+	int unordered_b;
 
-	ordered_a = find_unordered_ascending(ps->a, ps->len_a);
-	ordered_b = find_unordered_descending(ps->b, ps->len_b);
-//	if (!i)
-//		i = 0;
+	unordered_a = find_unordered_ascending(ps->a, ps->len_a);
+	unordered_b = find_unordered_descending(ps->b, ps->len_b);
 	if (is_finished(ps) == 1)
 	{
 //		ft_printf("DONE\n");
 		return ;
 	}
-	if (ps->len_a > 3 && ordered_a > 0)
-	{
-//		ft_printf("SORT BY MEDIAN - STACK A\n");
-		sort_by_median_a(ps);
-	}
-	else if (ps->len_b <= 3 && ordered_b > 0)
-	{
-//		ft_printf("SORT BY 2/3 - STACK B\n");
-		sort_2_or_3_alone(ps, 'b');
-	}
-	else if (ordered_a == 0 && ordered_b == 0)
+	if (unordered_a == 0 && unordered_b == 0)
 	{
 //		ft_printf("PUSH ALL TO A\n");
 		push_rest_to_a(ps);
 	}
-	else if (ordered_a == 0)
+	else if (ps->len_a > 3 && unordered_a > 0)
+	{
+//		ft_printf("SORT BY MEDIAN - STACK A\n");
+		sort_by_median_a(ps);
+	}
+	else if (ps->len_b <= 3 && unordered_b > 0)
+	{
+//		ft_printf("SORT BY 2/3 - STACK B\n");
+		sort_2_or_3_alone_b(ps);
+	}
+	else if (unordered_a == 0)
 	{
 //		ft_printf("SORT BY MEDIAN - STACK B\n");
 		sort_by_median_b(ps);
 	}
-	else if (ps->len_a <= 3 && ordered_a > 0)
+	else if (ps->len_a <= 3 && unordered_a > 0)
 	{
 //		ft_printf("SORT BY 2/3 - STACK A\n");
-		sort_2_or_3_alone(ps, 'a');
+		sort_2_or_3_alone_a(ps);
 	}
 //	i++;
 //	if (i < 500)
@@ -669,10 +610,10 @@ void	start_struct(int argc, char **args)
 	print_arrays(ps);
 //	ps_quicksort(ps, 'a');
 //	ps_insertion_sort_a_3(ps);
-	ps_insertion_sort_4(ps);
+//	ps_insertion_sort_4(ps);
 //	sort_4_not_alone_b(ps);
 //	print_arrays(ps);
-//	start_sort(ps);
+	start_sort(ps);
 	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {GREEN}%d{/}\n", ps->size, ps->ret);
 //	start_program(ps);
 }

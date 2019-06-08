@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/07 10:04:02 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/07 17:28:30 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/08 19:45:51 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,8 +249,8 @@ static int	find_closest_index(int len, s_4 *s4, int numbers_to_check)
 {
 	int highest;
 	int lowest;
-	ft_printf("len: %d\tnum_to_check: %d\ts4[1]: %d\ts4[2]: %d\ts4[3]: %d\ts4[4]: %d\n", numbers_to_check, len, s4->smallest_index, s4->s_median_index, s4->l_median_index, s4->largest_index);
 
+	ft_printf("len: %d\tnum_to_check: %d\ts4[1]: %d\ts4[2]: %d\ts4[3]: %d\ts4[4]: %d\n", numbers_to_check, len, s4->smallest_index, s4->s_median_index, s4->l_median_index, s4->largest_index);
 	if (numbers_to_check == 4)
 	{
 		highest = return_biggest_int(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index);
@@ -424,7 +424,7 @@ static void	push_all_to_a(p_a *ps)
 	int size;
 
 	if (ps->len_a == 2 || ps->len_a == 3)
-		return (sort_2_or_3_alone(ps, 'a'));
+		return (sort_2_or_3_alone_a(ps));
 	size = ps->len_b;
 	x = 0;
 	while (x < size)
@@ -474,13 +474,10 @@ void			ps_insertion_sort_4(p_a *ps)
 {
 	s_4 *s4;
 	int indexes;
-	static int i;
 
-	if (!i)
-		i = 0;
-	ft_printf("unordered descending result: %d\tsize: %d\n", find_unordered_descending(ps->b, ps->size), ps->size);
-	if (ps->len_a < 4)
-		return ;
+//	ft_printf("unordered descending result: %d\tsize: %d\n", find_unordered_descending(ps->b, ps->size), ps->size);
+//	if (ps->len_a < 4)
+//		return ;
 	if (ps->len_a < 4 && find_unordered_descending(ps->b, ps->size) == 0)
 		return (push_all_to_a(ps));
 	indexes = 4;
@@ -489,14 +486,12 @@ void			ps_insertion_sort_4(p_a *ps)
 	fill_s4_struct_2(ps->a, ps->len_a, s4);
 	s4->size = ps->size;
 	fill_index(ps->a, ps->len_a, s4);
-	ft_printf("s4 smallest index: %d\n", s4->smallest_index);
+//	ft_printf("s4 smallest index: %d\n", s4->smallest_index);
 	while (indexes > 0)
 	{
 		push_index(ps, s4, indexes);
 		indexes--;
 	}
 	sort_4_not_alone_b(ps);
-//	i++;
-//	if (i < 6)
 	ps_insertion_sort_4(ps);
 }

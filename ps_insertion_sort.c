@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:26:47 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/07 13:01:28 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/08 19:44:57 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ void		ps_insertion_sort_a_3(p_a *ps)
 		i = 0;
 	x = 0;
 	ft_printf("len a: %d\tlen b: %d\n", ps->len_a, ps->len_b);
-	if (ps->len_a < 3)
+	if (ps->len_a <= 3)
 		return (push_all_to_a(ps));
 	is = (i_s *)malloc(sizeof(i_s));
 	a_size = ps->len_a;
@@ -281,9 +281,10 @@ void		ps_insertion_sort_a_3(p_a *ps)
 		counter++;
 	}
 	if (ps->len_b == 3)
-		sort_2_or_3_alone(ps, 'b');
+		sort_2_or_3_alone_b(ps);
+	if (ps->len_a == 3)
+		sort_2_or_3_alone_a(ps);
 	else
 		sort_3_not_alone_b(ps);	
-//	i++;
 	ps_insertion_sort_a_3(ps);
 }
