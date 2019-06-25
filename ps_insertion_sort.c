@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:26:47 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/08 19:44:57 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/24 14:07:54 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,10 @@ static void	initialize_struct(i_s *is, int *stack)
 {
 	is->smallest_value = 2147483647;
 	is->smallest_index = 0;
-	is->smallest_used = 1;
 	is->second_value = 2147483647;
 	is->second_index = 0;
-	is->second_used = 1;
 	is->third_value = 2147483647;
 	is->third_index = 0;
-	is->third_used = 1;
 }
 
 void		phill_struct(int *value, int *index, int *new_value, int *new_index)

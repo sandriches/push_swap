@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/07 10:04:02 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/08 19:45:51 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/25 16:20:56 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,72 +35,6 @@ static void	check_swap_a(p_a *ps)
 {
 	if (ps->a[0] > ps->a[1])
 			swap_a(ps);
-}
-
-static int	return_biggest_int(int a, int b, int c, int d)
-{
-	if (a > b && a > c && a > d)
-		return (a);
-	else if (b > a && b > c && b > d)
-		return (b);
-	else if (c > a && c > b && c > d)
-		return (c);
-	return (d);
-}
-
-static int	return_smallest_int(int a, int b, int c, int d)
-{
-	if (a < b && a < c && a < d)
-		return (a);
-	else if (b < a && b < c && b < d)
-		return (b);
-	else if (c < a && c < b && c < d)
-		return (c);
-	return (d);
-}
-
-static int	return_3_int(int a, int b, int c, char sign)
-{
-	if (sign == '>')
-	{
-		if (a > b && a > c)
-			return (a);
-		else if (b > a && b > c)
-			return (b);
-		return (c);
-	}
-	else
-	{
-		if (a < b && a < c)
-			return (a);
-		else if (b < a && b < c)
-			return (b);
-		return (c);
-	}
-}
-
-static int	return_second_biggest_int(int a, int b, int c, int d)
-{
-	if (return_biggest_int(a, b, c, d) == a)
-		return (return_3_int(b, c, d, '>'));
-	else if (return_biggest_int(a, b, c, d) == b)
-		return (return_3_int(a, c, d, '>'));
-	else if (return_biggest_int(a, b, c, d) == c)
-		return (return_3_int(a, b, d, '>'));
-	else
-		return (return_3_int(a, b, c, '>'));
-}
-
-static int	return_second_smallest_int(int a, int b, int c, int d)
-{
-	if (return_smallest_int(a, b, c, d) == a)
-		return (return_3_int(b, c, d, '<'));
-	else if (return_smallest_int(a, b, c, d) == b)
-		return (return_3_int(a, c, d, '<'));
-	else if (return_smallest_int(a, b, c, d) == c)
-		return (return_3_int(a, b, d, '<'));
-	else
-		return (return_3_int(a, b, c, '<'));
 }
 
 static void	fill_index(int *stack, int len, s_4 *s4)
@@ -253,8 +187,8 @@ static int	find_closest_index(int len, s_4 *s4, int numbers_to_check)
 	ft_printf("len: %d\tnum_to_check: %d\ts4[1]: %d\ts4[2]: %d\ts4[3]: %d\ts4[4]: %d\n", numbers_to_check, len, s4->smallest_index, s4->s_median_index, s4->l_median_index, s4->largest_index);
 	if (numbers_to_check == 4)
 	{
-		highest = return_biggest_int(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index);
-		lowest = return_smallest_int(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index);
+		highest = return_biggest_int_4(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index);
+		lowest = return_smallest_int_4(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index);
 	}
 	else if (numbers_to_check == 3)
 	{
@@ -283,7 +217,7 @@ static int	find_closest_index(int len, s_4 *s4, int numbers_to_check)
 	else if (numbers_to_check == 2)
 		return (closest_index_2_a(len, s4));
 	else
-		return (return_smallest_int(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index));
+		return (return_smallest_int_4(s4->largest_index, s4->l_median_index, s4->s_median_index, s4->smallest_index));
 	if (len - highest < lowest)
 		return (highest);
 	return (lowest);
@@ -347,29 +281,7 @@ static void	fill_s4_struct_2(int *stack, int len, s_4 *s4)
 	}
 }
 
-void		sort_4_not_alone_b(p_a *ps)
-{
-//	for (int i = 0; i < 4; i++)
-//		push_b(ps);
-	if (find_unordered_descending(ps->b, 4) == 0)
-		return ;
-	if (return_smallest_int(ps->b[0], ps->b[1], ps->b[2], ps->b[3]) == ps->b[3])
-		return (sort_3_not_alone_b(ps));
-	check_swap_b(ps);
-	push_a(ps);
-	check_swap_b(ps);
-	push_a(ps);
-	check_swap_insertion_4(ps);
-	if (ps->b[0] > ps->a[0] || ps->b[0] > ps->a[1])
-	{
-		push_a(ps);
-		check_swap_a(ps);
-		push_b(ps);
-		check_swap_insertion_4(ps);
-	}
-	push_b(ps);
-	push_b(ps);
-}
+
 
 /*static void		check_negative_update(int stack_size, int *to_replace, int *rotated)
 {
@@ -478,7 +390,7 @@ void			ps_insertion_sort_4(p_a *ps)
 //	ft_printf("unordered descending result: %d\tsize: %d\n", find_unordered_descending(ps->b, ps->size), ps->size);
 //	if (ps->len_a < 4)
 //		return ;
-	if (ps->len_a < 4 && find_unordered_descending(ps->b, ps->size) == 0)
+	if (ps->len_a < 4 && find_unordered_descending(ps->b, ps->size) == 0 && find_unordered_ascending(ps->a, ps->size) == 0)
 		return (push_all_to_a(ps));
 	indexes = 4;
 	s4 = (s_4 *)malloc(sizeof(s_4));

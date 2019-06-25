@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/08 19:47:46 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/25 14:45:57 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	start_program(p_a *ps)
 }
 
 
+
 static m_struct		*make_struct(int data)
 {
 	m_struct *rtn_struct;
@@ -183,48 +184,6 @@ void	fill_arrays(p_a *ps, char **args)
 	}
 }
 
-static int		lookahead_median_split(int x, char sign, int median, p_a *ps)
-{
-	int y;
-	int count;
-
-	count = 0;
-	y = 0;
-	if (sign == '>')
-	{
-		while (x < ps->len_b)
-		{
-//			ft_printf("lookahead count %d\n", y);
-			if (ps->b[y] > median)
-				count++;
-			x++;
-			y++;
-		}
-	}
-	else
-	{
-		while (x < ps->len_a)
-		{
-//			ft_printf("lookahead count %d\n", y);
-			if (ps->a[y] < median)
-				count++;
-			x++;
-			y++;
-		}
-	}
-	return (count);
-}
-
-static int			find_size(int *stack)
-{
-	int x;
-
-	x = 0;
-	while (stack[x] != 0)
-		x++;
-	return (x);
-}
-
 static int			find_numbers_to_push(int *stack, int median, char sign, int stack_size)
 {
 	int x;
@@ -260,56 +219,6 @@ static int			*fill_ordered_stack(int *stack, int *ordered_stack, int size)
 		x++;
 	}
 	return (ordered_stack);
-}
-
-static void			check_swap(p_a *ps, char which_stack)
-{
-	if (which_stack == 'a')
-	{
-		if (ps->len_b > 1 && ps->b[0] < ps->b[1])
-			swap_both(ps);
-		else
-			swap_a(ps);		
-	}
-	else
-	{
-		if (ps->len_a > 1 && ps->a[0] > ps->a[1])
-			swap_both(ps);
-		else
-			swap_b(ps);
-	}	
-}
-
-int				find_unordered_descending(int *stack, int size)
-{
-	int x;
-	int unordered;
-
-	unordered = 0;
-	x = 1;
-	while (x < size)
-	{
-		if (stack[x - 1] < stack[x])
-			unordered++;
-		x++;
-	}
-	return (unordered);
-}
-
-int				find_unordered_ascending(int *stack, int size)
-{
-	int x;
-	int	unordered;
-
-	unordered = 0;
-	x = 1;
-	while (x < size)
-	{
-		if (stack[x - 1] < stack[x])
-			unordered++;
-		x++;
-	}
-	return (unordered);
 }
 
 static int		find_position_to_place(p_a *ps, char which_stack, int to_place)
@@ -448,9 +357,9 @@ void	sort_by_median_a(p_a *ps)
 	x = 0;
 	while (x < loops)
 	{
-		if (lookahead_median_split(x, '<', median, ps) == 0)
+		if (lookahead_how_many_smaller(x, median, ps) == 0)
 			break ;
-		else if (lookahead_median_split(x, '<', median, ps) == 1 && ps->len_a == 3)
+		else if (lookahead_how_many_smaller(x, median, ps) == 1 && ps->len_a == 3)
 			break ;
 		else if (ps->a[0] < median)
 		{
@@ -479,9 +388,9 @@ void	sort_by_median_b(p_a *ps)
 //	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
 	while (x < loops)
 	{
-		if (lookahead_median_split(x, '>', median, ps) == 0)
+		if (lookahead_how_many_bigger(x, median, ps) == 0)
 			break ;
-		else if (lookahead_median_split(x, '>', median, ps) == 1 && ps->len_b == 3)
+		else if (lookahead_how_many_bigger(x, median, ps) == 1 && ps->len_b == 3)
 			break ;
 		else if (ps->b[0] > median)
 		{
@@ -496,13 +405,6 @@ void	sort_by_median_b(p_a *ps)
 			rotate_b(ps);
 		x++;
 	}
-}
-
-static int		is_finished(p_a *ps)
-{
-	if (find_unordered_ascending(ps->a, ps->len_a) == 0 && ps->len_b == 0)
-		return (1);
-	return (0);
 }
 
 void	sort_2_or_3_alone_b(p_a *ps)
@@ -609,16 +511,18 @@ void	start_struct(int argc, char **args)
 	add_order(head);
 	print_arrays(ps);
 //	ps_quicksort(ps, 'a');
-//	ps_insertion_sort_a_3(ps);
-//	ps_insertion_sort_4(ps);
-//	sort_4_not_alone_b(ps);
+	// ps_insertion_sort_a_3(ps);
+	// ps_insertion_sort_4(ps);
+	// sort_4_not_alone_b(ps);
 //	print_arrays(ps);
-	start_sort(ps);
+	// start_sort(ps);
+	// sort_6(ps);
+	sort_by_median(ps);
 	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {GREEN}%d{/}\n", ps->size, ps->ret);
 //	start_program(ps);
 }
 
-int	main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	start_struct(argc, argv);
 	return (0);

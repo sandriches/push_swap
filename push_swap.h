@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/08 19:44:44 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/25 15:07:13 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,10 @@ typedef struct	index_struct
 {
 	int smallest_value;
 	int smallest_index;
-	int smallest_used;
 	int second_value;
 	int second_index;
-	int second_used;
 	int third_value;
 	int third_index;
-	int third_used;
 }				i_s;
 
 typedef struct sort_4_struct
@@ -109,7 +106,24 @@ void		sort_3_not_alone_b(p_a *ps);
 void		phill_struct(int *value, int *index, int *new_value, int *new_index);
 int			find_median(int *stack, int size);
 
+void		sort_6(p_a *ps);
+int			find_smallest_from_3(int a, int b, int c);
+int			find_biggest_from_3(int a, int b, int c);
+int			return_smallest_int_4(int a, int b, int c, int d);
+int			return_biggest_int_4(int a, int b, int c, int d);
+int			return_3_int(int a, int b, int c, char sign);
 
+void		check_rotate(p_a *ps, char which_stack);
+void		check_r_rotate(p_a *ps, char which_stack);
+void		check_swap(p_a *ps, char which_stack);
+
+void        sort_by_median(p_a *ps);
+
+int			lookahead_how_many_bigger(int x, int median, p_a *ps);
+int			lookahead_how_many_smaller(int x, int median, p_a *ps);
+int			find_unordered_descending(int *stack, int size);
+int			find_unordered_ascending(int *stack, int size);
+int			is_finished(p_a *ps);
 
 
 # endif
