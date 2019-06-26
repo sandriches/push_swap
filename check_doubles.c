@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/24 14:41:22 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/25 14:57:18 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/26 15:02:13 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,16 @@ void			check_swap(p_a *ps, char which_stack)
 {
 	if (which_stack == 'a')
 	{
-		if ((ps->len_b > 1 && ps->b[0] < ps->b[1]) && ps->len_a > 1 && (ps->a[0] < ps->a[1]))
+		if ((ps->len_b > 1 && ps->b[0] < ps->b[1]) && ps->len_a > 1 && (ps->a[0] > ps->a[1]))
 			swap_both(ps);
-		else if (ps->len_a > 1 && ps->a[0] < ps->a[1])
+		else if (ps->len_a > 1 && ps->a[0] > ps->a[1])
 			swap_a(ps);
 	}
 	else
 	{
-		if ((ps->len_a > 1 && ps->a[0] > ps->a[1]) && ps->len_b > 1 && (ps->b[0] > ps->b[1]))
+		if ((ps->len_a > 1 && ps->a[0] > ps->a[1]) && ps->len_b > 1 && (ps->b[0] < ps->b[1]))
 			swap_both(ps);
-		else if (ps->len_b > 1 && ps->b[0] > ps->b[1])
+		else if (ps->len_b > 1 && ps->b[0] < ps->b[1])
 			swap_b(ps);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/25 15:07:13 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/26 16:11:14 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int			find_unordered_descending(int *stack, int size);
 int			find_unordered_ascending(int *stack, int size);
 
 void		sort_4_not_alone_b(p_a *ps);
+void		sort_4_not_alone_a(p_a *ps);
 void		sort_3_not_alone_b(p_a *ps);
 
 void		phill_struct(int *value, int *index, int *new_value, int *new_index);
@@ -119,8 +120,8 @@ void		check_swap(p_a *ps, char which_stack);
 
 void        sort_by_median(p_a *ps);
 
-int			lookahead_how_many_bigger(int x, int median, p_a *ps);
-int			lookahead_how_many_smaller(int x, int median, p_a *ps);
+int		lookahead_how_many_bigger(int x, int median, p_a *ps, int amount_to_search);
+int		lookahead_how_many_smaller(int x, int median, p_a *ps, int amount_to_search);
 int			find_unordered_descending(int *stack, int size);
 int			find_unordered_ascending(int *stack, int size);
 int			is_finished(p_a *ps);

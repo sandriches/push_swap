@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/25 14:45:57 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/26 16:11:56 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,11 +357,11 @@ void	sort_by_median_a(p_a *ps)
 	x = 0;
 	while (x < loops)
 	{
-		if (lookahead_how_many_smaller(x, median, ps) == 0)
-			break ;
-		else if (lookahead_how_many_smaller(x, median, ps) == 1 && ps->len_a == 3)
-			break ;
-		else if (ps->a[0] < median)
+		// if (lookahead_how_many_smaller(x, median, ps) == 0)
+		// 	break ;
+		// else if (lookahead_how_many_smaller(x, median, ps) == 1 && ps->len_a == 3)
+		// 	break ;
+		if (ps->a[0] < median)
 		{
 			if (ps->len_b > 1 && find_unordered_descending(ps->b, ps->len_b) == 0)
 			{
@@ -388,11 +388,11 @@ void	sort_by_median_b(p_a *ps)
 //	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
 	while (x < loops)
 	{
-		if (lookahead_how_many_bigger(x, median, ps) == 0)
-			break ;
-		else if (lookahead_how_many_bigger(x, median, ps) == 1 && ps->len_b == 3)
-			break ;
-		else if (ps->b[0] > median)
+		// if (lookahead_how_many_bigger(x, median, ps) == 0)
+		// 	break ;
+		// else if (lookahead_how_many_bigger(x, median, ps) == 1 && ps->len_b == 3)
+		// 	break ;
+		if (ps->b[0] > median)
 		{
 			if (ps->len_a > 1 && find_unordered_ascending(ps->a, ps->len_a) == 0)
 			{
@@ -455,32 +455,32 @@ static void		start_sort(p_a *ps)
 	unordered_b = find_unordered_descending(ps->b, ps->len_b);
 	if (is_finished(ps) == 1)
 	{
-//		ft_printf("DONE\n");
+		// ft_printf("DONE\n");
 		return ;
 	}
 	if (unordered_a == 0 && unordered_b == 0)
 	{
-//		ft_printf("PUSH ALL TO A\n");
+		ft_printf("PUSH ALL TO A\n");
 		push_rest_to_a(ps);
 	}
 	else if (ps->len_a > 3 && unordered_a > 0)
 	{
-//		ft_printf("SORT BY MEDIAN - STACK A\n");
+		ft_printf("SORT BY MEDIAN - STACK A\n");
 		sort_by_median_a(ps);
 	}
 	else if (ps->len_b <= 3 && unordered_b > 0)
 	{
-//		ft_printf("SORT BY 2/3 - STACK B\n");
+		ft_printf("SORT BY 2/3 - STACK B\n");
 		sort_2_or_3_alone_b(ps);
 	}
 	else if (unordered_a == 0)
 	{
-//		ft_printf("SORT BY MEDIAN - STACK B\n");
+		ft_printf("SORT BY MEDIAN - STACK B\n");
 		sort_by_median_b(ps);
 	}
 	else if (ps->len_a <= 3 && unordered_a > 0)
 	{
-//		ft_printf("SORT BY 2/3 - STACK A\n");
+		ft_printf("SORT BY 2/3 - STACK A\n");
 		sort_2_or_3_alone_a(ps);
 	}
 //	i++;

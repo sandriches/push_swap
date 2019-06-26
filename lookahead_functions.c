@@ -6,21 +6,21 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:15:57 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/25 13:49:32 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/26 16:10:58 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 
-int		lookahead_how_many_bigger(int x, int median, p_a *ps)
+int		lookahead_how_many_bigger(int x, int median, p_a *ps, int amount_to_search)
 {
 	int y;
 	int count;
 
 	count = 0;
 	y = 0;
-	while (x < ps->len_b)
+	while (x < amount_to_search)
 	{
 		if (ps->b[y] > median)
 			count++;
@@ -30,14 +30,14 @@ int		lookahead_how_many_bigger(int x, int median, p_a *ps)
 	return (count);
 }
 
-int		lookahead_how_many_smaller(int x, int median, p_a *ps)
+int		lookahead_how_many_smaller(int x, int median, p_a *ps, int amount_to_search)
 {
 	int y;
 	int count;
 
 	count = 0;
 	y = 0;
-	while (x < ps->len_a)
+	while (x < amount_to_search)
 	{
 		if (ps->a[y] < median)
 			count++;
