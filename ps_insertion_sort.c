@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:26:47 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/26 14:26:47 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/06/27 18:01:52 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,33 +185,6 @@ static void	print_is(i_s *is)
 	ft_printf("second value: %d\tsecond index: %d\n", VALUE_2, INDX_2);
 	ft_printf("third value: %d\tthird index: %d\n", VALUE_3, INDX_3);
 }
-
-// void		sort_3_not_alone_b(p_a *ps)
-// {
-// 	ft_printf("in sort 3 not alone, b[0]: %d\tb[1]: %d\tb[2]: %d\n", ps->b[0], ps->b[1], ps->b[2]);
-// 	if (find_unordered_ascending(ps->b, 3) == 0)
-// 		return ;
-// 	if (ps->b[0] > ps->b[1])
-// 	{
-// 		push_a(ps);
-// 		swap_b(ps);
-// 		push_b(ps);
-// 		if (ps->b[0] < ps->b[1])
-// 			swap_b(ps);
-// 	}
-// 	else
-// 	{
-// 		swap_b(ps);
-// 		if (find_unordered_ascending(ps->b, 4) != 0)
-// 		{
-// 			push_a(ps);
-// 			swap_b(ps);
-// 			push_b(ps);
-// 			if (ps->b[0] < ps->b[1])
-// 				swap_b(ps);
-// 		}
-// 	}
-// }
 
 void		ps_insertion_sort_a_3(p_a *ps)
 {
