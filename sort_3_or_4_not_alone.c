@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 14:48:18 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/26 19:08:09 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/01 18:45:32 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		sort_4_not_alone_a(p_a *ps)
 {
 	if (find_unordered_ascending(ps->a, 4) == 0)
 		return ;
-	else if (return_smallest_int_4(ps->a[0], ps->a[1], ps->a[2], ps->a[3]) == ps->a[3])
+	else if (return_biggest_int_4(ps->a[0], ps->a[1], ps->a[2], ps->a[3]) == ps->a[3])
 		return (sort_3_not_alone_a(ps));
 	check_swap(ps, 'a');
 	push_b(ps);
@@ -94,5 +94,7 @@ void		sort_4_not_alone_a(p_a *ps)
 		check_swap_sort_2_3_4(ps);
 	}
 	push_a(ps);
+	check_swap(ps, 'a');
 	push_a(ps);
+	check_swap(ps, 'a');
 }

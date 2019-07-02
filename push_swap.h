@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/26 16:11:14 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/02 12:31:18 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct	push_swap
 {
 	int	*a;
 	int	*b;
-	int *sorted_stack;
+	// int *sorted_stack;
 	int size;
 	int len_a;
 	int len_b;
@@ -125,6 +125,12 @@ int		lookahead_how_many_smaller(int x, int median, p_a *ps, int amount_to_search
 int			find_unordered_descending(int *stack, int size);
 int			find_unordered_ascending(int *stack, int size);
 int			is_finished(p_a *ps);
+
+
+int				*make_halving_array(int size, char which_array);
+void		sort_by_med_b(p_a *ps, int loops, int inoffensive);
+void		sort_by_med_a(p_a *ps, int loops, int inoffensive);
+void		do_recursion_a(p_a *ps, int start_loop, int *half_array, int old_len);
 
 
 # endif
