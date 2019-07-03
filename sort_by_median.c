@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/02 13:57:49 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/03 18:05:19 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,32 @@ void		sort_by_med_b(p_a *ps, int loops, int inoffensive)
 	return (undo_rotates(ps, rotated, 'b', inoffensive));
 }
 
+void		sort_by_med_b_higher(p_a *ps, int loops, int inoffensive)
+{
+	int x;
+	int median;
+	int rotated;
+
+	x = 0;
+	median = find_median(ps->b, loops);
+	rotated = 0;
+	while (x < loops)
+	{
+		ft_printf("median: %d\n", median);
+		if (lookahead_how_many_bigger(0, median, ps, loops) == 0)
+			return (undo_rotates(ps, rotated, 'b', inoffensive));
+		if (ps->b[0] <= median)
+			push_a(ps);
+		else if (ps->b[0] > median)
+		{
+			check_rotate(ps, 'b');
+			rotated++;
+		}
+		x++;
+	}
+	return (undo_rotates(ps, rotated, 'b', inoffensive));
+}
+
 void		sort_by_med_a(p_a *ps, int loops, int inoffensive)
 {
 	int x;
@@ -113,24 +139,60 @@ void		sort_by_med_a(p_a *ps, int loops, int inoffensive)
 	return (undo_rotates(ps, rotated, 'a', inoffensive));
 }
 
+void		sort_by_med_a_lower(p_a *ps, int loops, int inoffensive)
+{
+	int x;
+	int median;
+	int rotated;
+
+	x = 0;
+	median = find_median(ps->a, loops);
+	rotated = 0;
+	while (x < loops)
+	{
+		ft_printf("median: %d\n", median);
+		if (lookahead_how_many_smaller(0, median, ps, loops) == 0)
+			return (undo_rotates(ps, rotated, 'a', inoffensive));
+		if (ps->a[0] > median)
+			push_b(ps);
+		else if (ps->a[0] <= median)
+		{
+			check_rotate(ps, 'a');
+			rotated++;
+		}
+		x++;
+	}
+	return (undo_rotates(ps, rotated, 'a', inoffensive));
+}
+
 void			sort_a_by_median_part_2(p_a *ps, int sorted_half, int loops, int *half_array)
 {
 	int old_len;
+	int to_loop_over1;
+	int to_loop_over2;
 	int x;
 
 	x = 0;
 	old_len = ps->len_a;
-	// sorted_half /= 2;
 	sort_by_med_b(ps, half_array[0] - ps->len_a, 1);
-	while (ps->len_a > old_len + 4)
-	{
-		sorted_half = ps->len_a - old_len;
-		// ft_printf("sorted_half: %d\n", sorted_half);
-		sort_by_med_a(ps, sorted_half, 1);
-		x++;
-	}
-	sort_4_not_alone_a(ps);
-	ft_printf("sorted half: %d\n", sorted_half);
+	sort_by_med_a(ps, half_array[1] , 1);
+	to_loop_over1 = ps->len_a - old_len;
+	// sort_by_med_a(ps, ps->len_a - old_len, 1);
+	// x++;
+	// to_loop_over2 = ps->len_a - old_len;
+	// sort_by_med_a(ps, ps->len_a - old_len, 1);
+	// x++;
+	// sort_4_not_alone_a(ps);
+	// ft_printf("loop over1: %d\tloop over 2: %d\n", to_loop_over1, to_loop_over2);
+	// while (ps->len_a > old_len + 4)
+	// {
+	// 	sorted_half = ps->len_a - old_len;
+	// 	// ft_printf("sorted_half: %d\n", sorted_half);
+	// 	sort_by_med_a(ps, sorted_half, 1);
+	// 	x++;
+	// }
+	// sort_4_not_alone_a(ps);
+	// ft_printf("sorted half: %d\n", sorted_half);
 	// sort_by_med_b(ps, sorted_half, 1);
 	// sort_4_not_alone_a(ps);
 	// ft_printf("x: %d\n", x);
@@ -244,22 +306,87 @@ void			sort_b_by_median(p_a *ps, int sorted_half, int loops)
 		push_a(ps);
 }
 
+static void		do_insert_4_sort(p_a *ps)
+{
+	while (ps->len_b > 4)
+	{
+		grab_4_from_b(ps, ps->len_b);
+		sort_4_not_alone_a(ps);
+	}
+	while (ps->len_b > 0)
+		push_a(ps);
+}
+
+static void		do_rest_of_pushing(p_a *ps, int half)
+{
+	int x;
+	
+	x = 0;
+	while (x < ps->size / 4)
+	{
+		if (half == 1)
+			rotate_a(ps);
+		x++;
+	}
+	while (x < ps->size / 2)
+	{
+		push_b(ps);
+		x++;
+	}
+}
+
 void		sort_by_median(p_a *ps)
 {
 	int sorted_half;
 	int loops;
 	int	*half_array_a;
 	int *half_array_b;
+	int x;
 
 	sorted_half = ps->size;
 	loops = find_loops(ps->size);
 	half_array_a = make_halving_array(ps->size, 'a');
 	half_array_b = make_halving_array(ps->size, 'b');
-	sort_by_med_a(ps, sorted_half, 0);
-	sort_a_by_median(ps, sorted_half, loops, half_array_a);
-	sort_a_by_median_part_2(ps, sorted_half, loops, half_array_a);
-	ft_printf("loops: %d\n", loops);
-	ft_printf("array0: %d\tarray[1]: %d\tarray[2]: %d\tarray[3]: %d\n", half_array_a[0], half_array_a[1], half_array_a[2], half_array_a[3]);
+
+	sort_by_med_a(ps, ps->size, 0);
+	sort_by_med_b(ps, ps->size / 2, 0);
+	do_insert_4_sort(ps);
+	x = 0;
+	do_rest_of_pushing(ps, 1);
+	do_insert_4_sort(ps);
+	x = 0;
+	while (x < ps->size / 4)
+	{
+		rotate_a(ps);
+		x++;
+	}
+	sort_by_med_a(ps, ps->size / 2, 1);
+	do_insert_4_sort(ps);
+	x = 0;
+	do_rest_of_pushing(ps, 1);
+	do_insert_4_sort(ps);
+	x = 0;
+	while (x < ps->size / 4)
+	{
+		rotate_a(ps);
+		x++;
+	}
+	// sort_by_med_a(ps, ps->size / 2, 1);
+	// while (ps->len_b > 4)
+	// {
+	// 	grab_4_from_b(ps, ps->len_b);
+	// 	sort_4_not_alone_a(ps);
+	// }
+	// while (ps->len_b > 0)
+	// 	push_a(ps);
+	// sort_4_not_alone_a(ps);
+
+
+
+	// sort_a_by_median(ps, sorted_half, loops, half_array_a);
+	// sort_a_by_median_part_2(ps, sorted_half, loops, half_array_a);
+	// ft_printf("loops: %d\n", loops);
+	// ft_printf("array0: %d\tarray[1]: %d\tarray[2]: %d\tarray[3]: %d\n", half_array_a[0], half_array_a[1], half_array_a[2], half_array_a[3]);
 	// sort_b_by_median(ps, sorted_half, loops);
 	// sort_b_by_median_part_2(ps, sorted_half, loops);
 	// push_all_to_a(ps);

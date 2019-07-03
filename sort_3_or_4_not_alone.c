@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 14:48:18 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/01 18:45:32 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/03 17:19:48 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		sort_4_not_alone_b(p_a *ps)
 	if (ps->b[0] > ps->a[0] || ps->b[0] > ps->a[1])
 	{
 		push_a(ps);
-		check_swap(ps, 'a');
+		swap_a(ps);
 		push_b(ps);
 		check_swap_sort_2_3_4(ps);
 	}
@@ -89,7 +89,7 @@ void		sort_4_not_alone_a(p_a *ps)
 	if (ps->a[0] < ps->b[0] || ps->a[0] < ps->b[1])
 	{
 		push_b(ps);
-		check_swap(ps, 'b');
+		swap_b(ps);
 		push_a(ps);
 		check_swap_sort_2_3_4(ps);
 	}
