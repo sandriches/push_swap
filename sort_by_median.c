@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/03 18:05:19 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/03 19:26:17 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,15 +306,31 @@ void			sort_b_by_median(p_a *ps, int sorted_half, int loops)
 		push_a(ps);
 }
 
-static void		do_insert_4_sort(p_a *ps)
+static void		do_insert_4_sort(p_a *ps, int four_or_two)
 {
-	while (ps->len_b > 4)
+	if (four_or_two == 4)
 	{
-		grab_4_from_b(ps, ps->len_b);
+		while (ps->len_b > 4)
+		{
+			grab_4_from_b(ps, ps->len_b);
+			sort_4_not_alone_a(ps);
+		}
+		while (ps->len_b > 0)
+			push_a(ps);
 		sort_4_not_alone_a(ps);
 	}
-	while (ps->len_b > 0)
-		push_a(ps);
+	else
+	{
+		while (ps->len_b > 2)
+		{
+			grab_2_from_b(ps, ps->len_b);
+			check_swap(ps, 'a');
+		}
+		while (ps->len_b > 0)
+			push_a(ps);
+		check_swap(ps, 'a');
+	}
+	
 }
 
 static void		do_rest_of_pushing(p_a *ps, int half)
@@ -348,12 +364,15 @@ void		sort_by_median(p_a *ps)
 	half_array_a = make_halving_array(ps->size, 'a');
 	half_array_b = make_halving_array(ps->size, 'b');
 
+
+
+
 	sort_by_med_a(ps, ps->size, 0);
 	sort_by_med_b(ps, ps->size / 2, 0);
-	do_insert_4_sort(ps);
+	do_insert_4_sort(ps, 4);
 	x = 0;
 	do_rest_of_pushing(ps, 1);
-	do_insert_4_sort(ps);
+	do_insert_4_sort(ps, 4);
 	x = 0;
 	while (x < ps->size / 4)
 	{
@@ -361,26 +380,16 @@ void		sort_by_median(p_a *ps)
 		x++;
 	}
 	sort_by_med_a(ps, ps->size / 2, 1);
-	do_insert_4_sort(ps);
+	do_insert_4_sort(ps, 4);
 	x = 0;
 	do_rest_of_pushing(ps, 1);
-	do_insert_4_sort(ps);
+	do_insert_4_sort(ps, 4);
 	x = 0;
 	while (x < ps->size / 4)
 	{
 		rotate_a(ps);
 		x++;
 	}
-	// sort_by_med_a(ps, ps->size / 2, 1);
-	// while (ps->len_b > 4)
-	// {
-	// 	grab_4_from_b(ps, ps->len_b);
-	// 	sort_4_not_alone_a(ps);
-	// }
-	// while (ps->len_b > 0)
-	// 	push_a(ps);
-	// sort_4_not_alone_a(ps);
-
 
 
 	// sort_a_by_median(ps, sorted_half, loops, half_array_a);
