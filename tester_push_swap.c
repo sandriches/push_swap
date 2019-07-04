@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/03 16:15:23 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/04 15:59:08 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	print_arrays(p_a *ps)
 {
 	int x;
 
-	if (ps->print == 0)
-		return ;
 	x = 0;
 	ft_printf("{BLUE}\n");
 	ft_printf("\nSTACK A[%d]:\t", ps->len_a);
@@ -505,7 +503,7 @@ void	start_struct(int argc, char **args)
 	ps->a = (int *)malloc(sizeof(int) * ps->len_a);
 	ps->b = (int *)malloc(sizeof(int) * ps->len_a);
 //	ps->ordered_stack = fill_ordered_stack()
-	ps->print = 1;
+	ps->print = 0;
 	fill_arrays(ps, args);
 	head = make_tree(ps, head);
 	add_order(head);
@@ -517,8 +515,14 @@ void	start_struct(int argc, char **args)
 //	print_arrays(ps);
 	// start_sort(ps);
 	// sort_6(ps);
-	sort_by_median(ps);
-	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {GREEN}%d{/}\n", ps->size, ps->ret);
+	// sort_by_median(ps);
+	sort_by_median_over_200(ps);
+	print_arrays(ps);
+	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {YELLOW}%d{/}\n", ps->size, ps->ret);
+	if (find_unordered_ascending(ps->a, ps->len_a) == 0 && ps->len_b == 0)
+		ft_printf("{GREEN}CORRECTLY SORTED!{/}\n\n");
+	else
+		ft_printf("\nUNORDERED LEFT ON A: {RED}%d[%d]{/}\n\n", find_unordered_ascending(ps->a, ps->len_a), find_first_unordered_ascending(ps->a, ps->len_a));
 //	start_program(ps);
 }
 

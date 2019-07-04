@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:26:42 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/04 12:04:23 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/04 13:48:56 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	push_a(p_a *ps)
 		ps->len_a++;
 		ps->ret++;
 		ft_printf("\npa");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -91,7 +92,8 @@ void	push_b(p_a *ps)
 		ps->len_a--;
 		ps->ret++;
 		ft_printf("\npb");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -104,7 +106,8 @@ void	swap_a(p_a *ps)
 		ps->a[1] = ps->temp;
 		ps->ret++;
 		ft_printf("\nsa");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -117,7 +120,8 @@ void	swap_b(p_a *ps)
 		ps->b[1] = ps->temp;
 		ps->ret++;
 		ft_printf("\nsb");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -133,7 +137,8 @@ void	swap_both(p_a *ps)
 		ps->b[1] = ps->temp;
 		ps->ret++;
 		ft_printf("\nss");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -146,7 +151,8 @@ void	rotate_a(p_a *ps)
 		ps->temp);
 		ps->ret++;
 		ft_printf("\nra");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -159,7 +165,8 @@ void	rotate_b(p_a *ps)
 		ps->temp);
 		ps->ret++;
 		ft_printf("\nrb");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -175,7 +182,8 @@ void	rotate_both(p_a *ps)
 		ps->temp);
 		ps->ret++;
 		ft_printf("\nrr");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -189,7 +197,8 @@ void	reverse_a(p_a *ps)
 		ps->a[0] = ps->temp;
 		ps->ret++;
 		ft_printf("\nrra");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -203,7 +212,8 @@ void	reverse_b(p_a *ps)
 		ps->b[0] = ps->temp;
 		ps->ret++;
 		ft_printf("\nrrb");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }
 
@@ -221,6 +231,7 @@ void	reverse_both(p_a *ps)
 		ps->b[0] = ps->temp;
 		ps->ret++;
 		ft_printf("\nrrr");
-		print_arrays(ps);
+		if (ps->print == 1)
+			print_arrays(ps);
 	}
 }

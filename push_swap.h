@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/03 18:58:40 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/04 15:58:55 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ int		lookahead_how_many_bigger(int x, int median, p_a *ps, int amount_to_search)
 int		lookahead_how_many_smaller(int x, int median, p_a *ps, int amount_to_search);
 int			find_unordered_descending(int *stack, int size);
 int			find_unordered_ascending(int *stack, int size);
+int				find_first_unordered_ascending(int *stack, int size);
+
 int			is_finished(p_a *ps);
 
 
@@ -134,6 +136,10 @@ void		do_recursion_a(p_a *ps, int start_loop, int *half_array, int old_len);
 
 void	grab_4_from_b(p_a *ps, int size);
 void		grab_2_from_b(p_a *ps, int size);
+int		get_highest_from_stack(int *stack, int size);
+int		get_lowest_from_stack(int *stack, int size);
+
+void		sort_by_median_over_200(p_a *ps);
 
 
 

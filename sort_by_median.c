@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/03 19:26:17 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/04 16:02:10 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void		sort_by_med_b(p_a *ps, int loops, int inoffensive)
 	int median;
 	int rotated;
 
+	ft_printf("SORT BY MED_B, LOOPS: %d\n", loops);
 	x = 0;
 	median = find_median(ps->b, loops);
 	rotated = 0;
@@ -93,6 +94,7 @@ void		sort_by_med_b_higher(p_a *ps, int loops, int inoffensive)
 	int median;
 	int rotated;
 
+	ft_printf("SORT BY MED_B_lower, LOOPS: %d\n", loops);
 	x = 0;
 	median = find_median(ps->b, loops);
 	rotated = 0;
@@ -119,6 +121,7 @@ void		sort_by_med_a(p_a *ps, int loops, int inoffensive)
 	int median;
 	int rotated;
 
+	ft_printf("SORT BY MED_A, LOOPS: %d\n", loops);
 	x = 0;
 	median = find_median(ps->a, loops);
 	rotated = 0;
@@ -145,6 +148,7 @@ void		sort_by_med_a_lower(p_a *ps, int loops, int inoffensive)
 	int median;
 	int rotated;
 
+	ft_printf("SORT BY MED_A_lower, LOOPS: %d\n", loops);
 	x = 0;
 	median = find_median(ps->a, loops);
 	rotated = 0;
@@ -313,11 +317,15 @@ static void		do_insert_4_sort(p_a *ps, int four_or_two)
 		while (ps->len_b > 4)
 		{
 			grab_4_from_b(ps, ps->len_b);
+			ft_printf("SORT 4 ALONE A: \n");
 			sort_4_not_alone_a(ps);
+			ft_printf("FINISHED SORT 4\n");
 		}
 		while (ps->len_b > 0)
 			push_a(ps);
+		ft_printf("SORT 4 ALONE A: \n");
 		sort_4_not_alone_a(ps);
+		ft_printf("FINISHED SORT 4\n");
 	}
 	else
 	{
@@ -330,25 +338,195 @@ static void		do_insert_4_sort(p_a *ps, int four_or_two)
 			push_a(ps);
 		check_swap(ps, 'a');
 	}
-	
 }
 
-static void		do_rest_of_pushing(p_a *ps, int half)
+static void		push_amount_to_b(p_a *ps, int stop_index)
 {
 	int x;
 	
 	x = 0;
-	while (x < ps->size / 4)
-	{
-		if (half == 1)
-			rotate_a(ps);
-		x++;
-	}
-	while (x < ps->size / 2)
+	while (x < stop_index)
 	{
 		push_b(ps);
 		x++;
 	}
+}
+
+static void		push_to_b(p_a *ps, int *half_array)
+{
+	int x;
+	
+	x = 0;
+	while (x < half_array[0] - half_array[1])
+	{
+		ft_printf("push rest up to %d\n", half_array[0]);
+		push_b(ps);
+		x++;
+	}
+}
+
+static void		second_push_to_b(p_a *ps, int *half_array)
+{
+	int x;
+	
+	x = 0;
+	while (x < half_array[1])
+	{
+		ft_printf("push rest up to %d\n", half_array[0]);
+		push_b(ps);
+		x++;
+	}
+}
+
+static void		push_into_place(p_a *ps, int stop_at)
+{
+	while (ps->a[0] != stop_at)
+		rotate_a(ps);
+	rotate_a(ps);
+}
+
+static void	do_7_lines(p_a *ps, int *half_array_a, int *half_array_b)
+{
+	int stop_at;
+
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_b[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+}
+
+void		sort_by_median_over_200(p_a *ps)
+{
+	int	*half_array_a;
+	int *half_array_b;
+	int x;
+	int y;
+	int z;
+	int stop_at;
+
+	half_array_a = make_halving_array(ps->size, 'a');
+	half_array_b = make_halving_array(ps->size, 'b');
+	sort_by_med_a(ps, ps->size, 0);
+	x = 0;
+	y = 0;
+
+	while (x < 8)
+	{
+		if (x == 0)
+		{
+			while (y < 3)
+			{
+				sort_by_med_b(ps, half_array_b[y], 0);
+				y++;
+			}
+		}
+		else if (x == 1 || x == 2)
+		{
+			sort_by_med_a(ps, half_array_b[1], 1);
+			sort_by_med_b(ps, half_array_a[2], 0);
+		}
+		else if (x == 3 || x == 7)
+			sort_by_med_a(ps, half_array_a[2], 1);
+		else if (x == 4)
+		{
+			sort_by_med_a(ps, half_array_b[0], 1);
+			sort_by_med_b(ps, half_array_a[1], 1);
+			sort_by_med_b(ps, half_array_a[2], 1);
+		}
+		else
+		{
+			sort_by_med_a(ps, half_array_a[1], 1);
+			sort_by_med_b(ps, half_array_a[2], 1);
+		}
+		do_7_lines(ps, half_array_a, half_array_b);
+		x++;
+	}
+
+	// sort_by_med_b(ps, half_array_b[0], 0);
+	// sort_by_med_b(ps, half_array_b[1], 0);
+	// sort_by_med_b(ps, half_array_b[2], 0);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	// sort_by_med_a(ps, half_array_b[1], 1);
+	// sort_by_med_b(ps, half_array_a[2], 0);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	// sort_by_med_a(ps, half_array_b[1], 1);
+	// sort_by_med_b(ps, half_array_a[2], 0);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	
+	// sort_by_med_a(ps, half_array_a[2], 1);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	// sort_by_med_a(ps, half_array_a[0], 1);
+	// sort_by_med_b(ps, half_array_a[1], 1);
+	// sort_by_med_b(ps, half_array_a[2], 1);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	// sort_by_med_a(ps, half_array_a[1], 1);
+	// sort_by_med_b(ps, half_array_a[2], 1);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	// sort_by_med_a(ps, half_array_a[1], 1);
+	// sort_by_med_b(ps, half_array_a[2], 1);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	// sort_by_med_a(ps, half_array_a[2], 1);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, half_array_b[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+
+	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", half_array_a[0], half_array_a[1], half_array_a[2], half_array_a[3]);
+	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", half_array_b[0], half_array_b[1], half_array_b[2], half_array_b[3]);
 }
 
 void		sort_by_median(p_a *ps)
@@ -358,39 +536,35 @@ void		sort_by_median(p_a *ps)
 	int	*half_array_a;
 	int *half_array_b;
 	int x;
+	int stop_at;
 
 	sorted_half = ps->size;
 	loops = find_loops(ps->size);
 	half_array_a = make_halving_array(ps->size, 'a');
 	half_array_b = make_halving_array(ps->size, 'b');
-
-
-
-
+	// return ;
 	sort_by_med_a(ps, ps->size, 0);
-	sort_by_med_b(ps, ps->size / 2, 0);
+	sort_by_med_b(ps, half_array_b[0], 0);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
-	x = 0;
-	do_rest_of_pushing(ps, 1);
+	push_into_place(ps, stop_at);
+	if ((half_array_a[0] == half_array_b[0]) && (half_array_a[1] != half_array_b[1]))
+		push_to_b(ps, half_array_b);
+	else
+		second_push_to_b(ps, half_array_b);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
-	x = 0;
-	while (x < ps->size / 4)
-	{
-		rotate_a(ps);
-		x++;
-	}
-	sort_by_med_a(ps, ps->size / 2, 1);
+	push_into_place(ps, stop_at);
+	sort_by_med_a(ps, half_array_a[0], 1);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
-	x = 0;
-	do_rest_of_pushing(ps, 1);
+	push_into_place(ps, stop_at);
+	second_push_to_b(ps, half_array_a);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
-	x = 0;
-	while (x < ps->size / 4)
-	{
-		rotate_a(ps);
-		x++;
-	}
-
+	push_into_place(ps, stop_at);
+	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", half_array_a[0], half_array_a[1], half_array_a[2], half_array_a[3]);
+	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", half_array_b[0], half_array_b[1], half_array_b[2], half_array_b[3]);
 
 	// sort_a_by_median(ps, sorted_half, loops, half_array_a);
 	// sort_a_by_median_part_2(ps, sorted_half, loops, half_array_a);
