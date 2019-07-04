@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:15:57 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/04 15:57:53 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/04 17:24:19 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int				find_first_unordered_ascending(int *stack, int size)
 	while (x < size)
 	{
 		if (stack[x - 1] > stack[x])
-			return (stack[x - 1]);
+			return (x - 1);
 		x++;
 	}
 	return (unordered);

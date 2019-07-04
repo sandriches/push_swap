@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/04 16:02:10 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/04 17:44:24 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,15 +387,61 @@ static void		push_into_place(p_a *ps, int stop_at)
 
 static void	do_7_lines(p_a *ps, int *half_array_a, int *half_array_b)
 {
-	int stop_at;
+	int			stop_at;
+	static int	check_different;
 
+	if (!check_different)
+		check_different = 0;
 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
 	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_b[3]);
+	if (check_different % 2 == 0)
+		push_amount_to_b(ps, half_array_a[3]);
+	else
+		push_amount_to_b(ps, half_array_b[3]);
+	check_different++;
 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
 	push_into_place(ps, stop_at);
+}
+
+static void	big_loop_1(p_a *ps, int *half_array_a, int *half_array_b, int x)
+{
+	if (x == 1)
+	{
+		sort_by_med_a(ps, half_array_b[1], 1);
+		sort_by_med_b(ps, half_array_b[2], 0);
+	}
+	else if (x == 2)
+	{
+		sort_by_med_a(ps, half_array_a[1], 1);
+		sort_by_med_b(ps, half_array_a[2], 0);
+	}
+	else if (x == 3)
+		sort_by_med_a(ps, half_array_b[2], 1);
+	else if (x == 7)
+		sort_by_med_a(ps, half_array_a[2], 1);
+}
+
+static void	big_loop_2(p_a *ps, int *half_array_a, int *half_array_b, int x)
+{
+
+	if (x == 0)
+	{
+		sort_by_med_b(ps, half_array_b[0], 0);
+		sort_by_med_b(ps, half_array_b[1], 0);
+		sort_by_med_b(ps, half_array_a[2], 0);
+	}
+	else if (x == 5)
+	{
+		sort_by_med_a(ps, half_array_a[1], 1);
+		sort_by_med_b(ps, half_array_a[2], 1);
+	}
+	else if (x == 6)
+	{
+		sort_by_med_a(ps, half_array_b[1], 1);
+		sort_by_med_b(ps, half_array_b[2], 1);
+	}
 }
 
 void		sort_by_median_over_200(p_a *ps)
@@ -413,33 +459,17 @@ void		sort_by_median_over_200(p_a *ps)
 	x = 0;
 	y = 0;
 
-	while (x < 8)
+	while (x < 1)
 	{
-		if (x == 0)
-		{
-			while (y < 3)
-			{
-				sort_by_med_b(ps, half_array_b[y], 0);
-				y++;
-			}
-		}
-		else if (x == 1 || x == 2)
-		{
-			sort_by_med_a(ps, half_array_b[1], 1);
-			sort_by_med_b(ps, half_array_a[2], 0);
-		}
-		else if (x == 3 || x == 7)
-			sort_by_med_a(ps, half_array_a[2], 1);
+		if (x == 0 || x == 5 || x == 6)
+			big_loop_2(ps, half_array_a, half_array_b, x);
+		else if (x == 1 || x == 2 || x == 3 || x == 7)
+			big_loop_1(ps, half_array_a, half_array_b, x);
 		else if (x == 4)
 		{
 			sort_by_med_a(ps, half_array_b[0], 1);
-			sort_by_med_b(ps, half_array_a[1], 1);
-			sort_by_med_b(ps, half_array_a[2], 1);
-		}
-		else
-		{
-			sort_by_med_a(ps, half_array_a[1], 1);
-			sort_by_med_b(ps, half_array_a[2], 1);
+			sort_by_med_b(ps, half_array_b[1], 1);
+			sort_by_med_b(ps, half_array_b[2], 1);
 		}
 		do_7_lines(ps, half_array_a, half_array_b);
 		x++;
