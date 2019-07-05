@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/04 15:58:55 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/05 11:10:41 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int		get_highest_from_stack(int *stack, int size);
 int		get_lowest_from_stack(int *stack, int size);
 
 void		sort_by_median_over_200(p_a *ps);
-
+int				find_unordered_ascending_from_one(int *stack, int size);
 
 
 # endif

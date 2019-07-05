@@ -6,12 +6,11 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:15:57 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/04 17:24:19 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/05 16:46:46 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
 
 int		lookahead_how_many_bigger(int x, int median, p_a *ps, int amount_to_search)
 {
@@ -71,6 +70,24 @@ int				find_first_unordered_ascending(int *stack, int size)
 		x++;
 	}
 	return (unordered);
+}
+
+int				find_unordered_ascending_from_one(int *stack, int size)
+{
+	int x;
+	int unordered;
+
+	x = 0;
+	unordered = 0;
+	while (stack[x] != 1 && x < size - 1)
+		x++;
+	while (x < size - 1)
+	{
+		if (stack[x] > stack[x + 1])
+			return (stack[x + 1]);
+		x++;
+	}
+	return (-1);
 }
 
 int				find_unordered_ascending(int *stack, int size)

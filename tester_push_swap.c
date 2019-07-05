@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/04 15:59:08 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/05 13:37:24 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,7 +522,10 @@ void	start_struct(int argc, char **args)
 	if (find_unordered_ascending(ps->a, ps->len_a) == 0 && ps->len_b == 0)
 		ft_printf("{GREEN}CORRECTLY SORTED!{/}\n\n");
 	else
+	{
 		ft_printf("\nUNORDERED LEFT ON A: {RED}%d[%d]{/}\n\n", find_unordered_ascending(ps->a, ps->len_a), find_first_unordered_ascending(ps->a, ps->len_a));
+		ft_printf("UNORDERED FROM 1: %d\n", find_unordered_ascending_from_one(ps->a, ps->len_a));
+	}
 //	start_program(ps);
 }
 
