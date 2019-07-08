@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/05 13:37:24 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/08 18:24:02 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,6 @@ int		command_to_op(char *str, p_a *ps)
 	else
 		return (0);
 	return (1);
-}
-
-void	print_arrays(p_a *ps)
-{
-	int x;
-
-	x = 0;
-	ft_printf("{BLUE}\n");
-	ft_printf("\nSTACK A[%d]:\t", ps->len_a);
-	while (x < ps->len_a)
-	{
-		ft_printf(" {/}{BLUE}%d{/}\t", ps->a[x]);
-		x++;
-	}
-//	x = 0;
-	// ft_printf("|{GREEN}\n");
-	// ft_printf("----------");
-/*	while (x < ps->size)
-	{
-		ft_printf("---------------");
-		x++;
-	}*/
-	x = 0;
-	ft_printf("\n\n{RED}STACK B[%d]:\t", ps->len_b);
-	while (x < ps->len_b)
-	{
-		ft_printf(" {RED}%d{/}\t", ps->b[x]);
-		x++;
-	}
-	x = 0;
-	ft_printf("{/}\n\n\n");
 }
 
 void	start_program(p_a *ps)
@@ -500,10 +469,11 @@ void	start_struct(int argc, char **args)
 	ps->size = argc - 1;
 	ps->temp = 0;
 	ps->ret = 0;
+	ps->print_commands = 1;
 	ps->a = (int *)malloc(sizeof(int) * ps->len_a);
 	ps->b = (int *)malloc(sizeof(int) * ps->len_a);
 //	ps->ordered_stack = fill_ordered_stack()
-	ps->print = 0;
+	ps->print_stacks = 1;
 	fill_arrays(ps, args);
 	head = make_tree(ps, head);
 	add_order(head);
@@ -516,8 +486,9 @@ void	start_struct(int argc, char **args)
 	// start_sort(ps);
 	// sort_6(ps);
 	// sort_by_median(ps);
-	sort_by_median_over_200(ps);
+	// sort_by_median_over_200(ps);
 	print_arrays(ps);
+	ft_ps_half(ps);
 	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {YELLOW}%d{/}\n", ps->size, ps->ret);
 	if (find_unordered_ascending(ps->a, ps->len_a) == 0 && ps->len_b == 0)
 		ft_printf("{GREEN}CORRECTLY SORTED!{/}\n\n");

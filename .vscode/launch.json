@@ -14,7 +14,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/a.out",
-			"args": ["861", "212", "948", "265", "259", "812", "790", "450", "220", "111", "420", "3"], // 9 5 2 7 6 3 1 4 // "2", "1", "7", "5", "10", "3", "4", "8"
+			"args": ["-2147483648", "21", "42", "21", "300", "./file_to_read"],
 			"stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],

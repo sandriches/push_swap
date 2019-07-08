@@ -6,7 +6,7 @@
 #    By: rcorke <rcorke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/01/19 18:09:35 by rcorke         #+#    #+#                 #
-#    Updated: 2019/04/25 01:08:18 by rcorke        ########   odam.nl          #
+#    Updated: 2019/07/08 11:49:13 by rcorke        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
 ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c \
 ft_isprime.c ft_pow.c ft_skipchars.c ft_rplchars.c ft_strrev.c ft_strcharloc.c \
 ft_strlow.c ft_strnjoin.c ft_strndup.c ft_lstlen.c ft_lstaddend.c ft_strcap.c \
-get_next_line.c ft_long_itoa.c ft_long_long_itoa.c ft_unsigned_long.c
+get_next_line.c ft_long_itoa.c ft_long_long_itoa.c ft_unsigned_long.c \
+ft_fits_in_int.c
 OBJECTS = $(SRCS:.c=.o)
 FLAGS = -Wall -Wextra -Werror
 LIBMAKER = ar rc

@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/24 14:41:22 by rcorke         #+#    #+#                */
-/*   Updated: 2019/06/26 15:02:13 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/08 18:22:08 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				find_biggest_from_3(int a, int b, int c)
 	return (c);
 }
 
-void			check_rotate(p_a *ps, char which_stack)
+int			check_rotate(p_a *ps, char which_stack)
 {
 	if (which_stack == 'a')
 	{
@@ -52,7 +52,7 @@ void			check_rotate(p_a *ps, char which_stack)
 	}	
 }
 
-void			check_r_rotate(p_a *ps, char which_stack)
+int			check_r_rotate(p_a *ps, char which_stack)
 {
 	if (which_stack == 'a')
 	{

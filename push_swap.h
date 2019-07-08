@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/05 11:10:41 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/08 18:22:26 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ typedef struct	push_swap
 {
 	int	*a;
 	int	*b;
-	// int *sorted_stack;
 	int size;
 	int len_a;
 	int len_b;
 	int temp;
 	int ret;
-	int print;
+	int print_stacks;
+	int print_commands;
 }				p_a;
 
 typedef struct	find_medium
@@ -74,18 +74,17 @@ typedef struct	find_medium
 	struct find_medium *lower;
 }				m_struct;
 
-
-void		push_a(p_a *ps);
-void		push_b(p_a *ps);
-void		swap_a(p_a *ps);
-void		swap_b(p_a *ps);
-void		swap_both(p_a *ps);
-void		rotate_a(p_a *ps);
-void		rotate_b(p_a *ps);
-void		rotate_both(p_a *ps);
-void		reverse_a(p_a *ps);
-void		reverse_b(p_a *ps);
-void		reverse_both(p_a *ps);
+int			push_a(p_a *ps);
+int			push_b(p_a *ps);
+int			swap_a(p_a *ps);
+int			swap_b(p_a *ps);
+int			swap_both(p_a *ps);
+int			rotate_a(p_a *ps);
+int			rotate_b(p_a *ps);
+int			rotate_both(p_a *ps);
+int			reverse_a(p_a *ps);
+int			reverse_b(p_a *ps);
+int			reverse_both(p_a *ps);
 
 
 int			find_length(int *array, int len);
@@ -114,8 +113,8 @@ int			return_smallest_int_4(int a, int b, int c, int d);
 int			return_biggest_int_4(int a, int b, int c, int d);
 int			return_3_int(int a, int b, int c, char sign);
 
-void		check_rotate(p_a *ps, char which_stack);
-void		check_r_rotate(p_a *ps, char which_stack);
+int		check_rotate(p_a *ps, char which_stack);
+int		check_r_rotate(p_a *ps, char which_stack);
 void		check_swap(p_a *ps, char which_stack);
 
 void        sort_by_median(p_a *ps);
@@ -141,6 +140,10 @@ int		get_lowest_from_stack(int *stack, int size);
 
 void		sort_by_median_over_200(p_a *ps);
 int				find_unordered_ascending_from_one(int *stack, int size);
+void		ft_ps_half(p_a *ps);
+
+
+int		check_errors(int argc, char **argv);
 
 
 # endif

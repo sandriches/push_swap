@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/05 16:59:03 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/08 18:23:21 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static void		undo_rotates(p_a *ps, int count, char which_stack, int do_or_not)
 	}	
 }
 
-void		sort_by_med_b(p_a *ps, int loops, int inoffensive, char ignore_highest)
+void		sort_by_med_b(p_a *ps, int loops, int inoffensive)
 {
 	int x;
 	int median;
 	int rotated;
 	int highest;
 
-	highest = get_highest_from_stack(stack, loops);
+	highest = get_highest_from_stack(ps->b, loops);
 	// ft_printf("SORT BY MED_B, LOOPS: %d\tHIGHEST: %d\tLOWEST: %d\n", loops, get_highest_from_stack(ps->b, loops), get_lowest_from_stack(ps->b, loops));
 	x = 0;
 	median = find_median(ps->b, loops);
@@ -76,8 +76,6 @@ void		sort_by_med_b(p_a *ps, int loops, int inoffensive, char ignore_highest)
 	while (x < loops)
 	{
 		ft_printf("median: %d\n", median);
-		if (ignore_highest == 'i' && ps->b[0] == highest)
-			check_rotate(ps, 'b');
 		if (lookahead_how_many_bigger(0, median, ps, loops) == 0)
 			return (undo_rotates(ps, rotated, 'b', inoffensive));
 		if (ps->b[0] > median)
@@ -492,7 +490,7 @@ void		sort_by_median_over_200(p_a *ps)
 	push_into_place(ps, stop_at);
 
 /* 1 */
-	sort_by_med_a(ps, half_array_b[1], 1, 'i');
+	sort_by_med_a(ps, half_array_b[1], 1);
 	// sort_by_med_b(ps, half_array_a[2], 0);
 	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	// do_insert_4_sort(ps, 4);

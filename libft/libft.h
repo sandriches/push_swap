@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/01/10 17:22:12 by rcorke         #+#    #+#                */
-/*   Updated: 2019/04/15 13:48:23 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/08 11:49:30 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,7 @@ void				ft_lstaddend(t_list *lst, t_list *new);
 void				ft_lstpopend(t_list *lst);
 
 int					get_next_line(const int fd, char **line);
+
+int					ft_fits_in_int(char *str);
 
 #endif
