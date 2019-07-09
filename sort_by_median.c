@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/08 18:23:21 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/09 19:31:57 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ void		sort_by_med_b(p_a *ps, int loops, int inoffensive)
 		if (lookahead_how_many_bigger(0, median, ps, loops) == 0)
 			return (undo_rotates(ps, rotated, 'b', inoffensive));
 		if (ps->b[0] > median)
+		// if ((loops % 2 == 1) ? ps->b[0] >= median : ps->b[0] > median)
 			push_a(ps);
+		// else if ((loops % 2 == 1) ? ps->b[0] < median : ps->b[0] <= median)
 		else if (ps->b[0] <= median)
 		{
 			check_rotate(ps, 'b');
@@ -123,7 +125,7 @@ void		sort_by_med_a(p_a *ps, int loops, int inoffensive)
 	int median;
 	int rotated;
 
-	// ft_printf("SORT BY MED_A, LOOPS: %d\n", loops);
+	ft_printf("SORT BY MED_A, LOOPS: %d\n", loops);
 	x = 0;
 	median = find_median(ps->a, loops);
 	rotated = 0;
@@ -484,86 +486,86 @@ void		sort_by_median_over_200(p_a *ps)
 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
 	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_b[3]);
+	push_amount_to_b(ps, half_array_a[3]);
 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
 	push_into_place(ps, stop_at);
 
 /* 1 */
 	sort_by_med_a(ps, half_array_b[1], 1);
-	// sort_by_med_b(ps, half_array_a[2], 0);
-	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	// do_insert_4_sort(ps, 4);
-	// push_into_place(ps, stop_at);
-	// push_amount_to_b(ps, half_array_a[3]);
-	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	// do_insert_4_sort(ps, 4);
-	// push_into_place(ps, stop_at);
+	sort_by_med_b(ps, half_array_b[2], 0);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
-// /* 2 */
-// 	sort_by_med_a(ps, half_array_a[1], 1);
-// 	sort_by_med_b(ps, half_array_b[2], 0);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
-// 	push_amount_to_b(ps, half_array_b[3]);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
+/* 2 */
+	sort_by_med_a(ps, half_array_a[1], 1);
+	sort_by_med_b(ps, half_array_b[2], 0);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
-// /* 3 */
-// 	sort_by_med_a(ps, half_array_b[2], 1);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
-// 	push_amount_to_b(ps, half_array_b[3]);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
+/* 3 */
+	sort_by_med_a(ps, half_array_a[2], 1);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
 // /* 4 */
-// 	sort_by_med_a(ps, half_array_a[0], 1);
-// 	sort_by_med_b(ps, half_array_b[1], 1);
-// 	sort_by_med_b(ps, half_array_b[2], 1);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
-// 	push_amount_to_b(ps, half_array_b[3]);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
+	sort_by_med_a(ps, half_array_a[0], 1);
+	sort_by_med_b(ps, half_array_b[1], 1);
+	sort_by_med_b(ps, half_array_b[2], 1);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
-// /* 5 */
-// 	sort_by_med_a(ps, half_array_b[1], 1);
-// 	sort_by_med_b(ps, half_array_b[2], 1);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
-// 	push_amount_to_b(ps, half_array_b[3]);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
+// // /* 5 */
+	sort_by_med_a(ps, half_array_b[1], 1);
+	sort_by_med_b(ps, half_array_b[2], 1);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
 // /* 6 */
-// 	sort_by_med_a(ps, half_array_a[1], 1);
-// 	sort_by_med_b(ps, half_array_b[2], 1);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
-// 	push_amount_to_b(ps, half_array_b[3]);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
+	sort_by_med_a(ps, half_array_a[1], 1);
+	sort_by_med_b(ps, half_array_b[2], 1);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
 // /* 7 */
-// 	sort_by_med_a(ps, half_array_a[2], 1);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
-// 	push_amount_to_b(ps, half_array_a[3]);
-// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-// 	do_insert_4_sort(ps, 4);
-// 	push_into_place(ps, stop_at);
+	sort_by_med_a(ps, half_array_a[2], 1);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
+	push_amount_to_b(ps, half_array_a[3]);
+	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	do_insert_4_sort(ps, 4);
+	push_into_place(ps, stop_at);
 
 	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", half_array_a[0], half_array_a[1], half_array_a[2], half_array_a[3]);
 	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", half_array_b[0], half_array_b[1], half_array_b[2], half_array_b[3]);

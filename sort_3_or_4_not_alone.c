@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 14:48:18 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/04 13:16:36 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/09 15:43:03 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,88 @@ void		sort_3_not_alone_b(p_a *ps)
 	check_swap(ps, 'b');
 	push_b(ps);
 	check_swap(ps, 'b');
+}
+static void		sort_3_high_low_b(p_a *ps)
+{
+	if (return_3_int(ps->b[0], ps->b[1], ps->b[2], '>') == ps->b[0])
+	{
+		rotate_b(ps);
+		if (ps->b[1] > ps->b[0])
+			swap_b(ps);
+	}
+	else if (return_3_int(ps->b[0], ps->b[1], ps->b[2], '>') == ps->b[1])
+	{
+		swap_b(ps);
+		rotate_b(ps);
+		if (ps->b[1] > ps->b[0])
+			swap_b(ps);
+	}
+	else
+	{
+		push_a(ps);
+		swap_b(ps);
+		rotate_b(ps);
+		push_b(ps);
+		if (ps->b[1] > ps->b[0])
+			swap_b(ps);
+	}
+}
+
+static void	worst_case_4_high_low_b(p_a *ps)
+{
+	push_a(ps);
+	push_a(ps);
+	swap_b(ps);
+	rotate_b(ps);
+	if (return_3_int(ps->b[0], ps->a[0], ps->a[1], '>') == ps->b[0])
+	{
+		rotate_b(ps);
+		push_b(ps);
+		push_b(ps);
+		if (ps->b[1] > ps->b[0])
+			swap_b(ps);
+	}
+	else if (return_3_int(ps->b[0], ps->a[0], ps->a[1], '>') == ps->a[0])
+	{
+		push_b(ps);
+		rotate_b(ps);
+		push_b(ps);
+		if (ps->b[1] > ps->b[0])
+			swap_b(ps);
+	}
+	else
+	{
+		push_b(ps);
+		push_b(ps);
+		rotate_b(ps);
+		if (ps->b[1] > ps->b[0])
+			swap_b(ps);
+	}
+}
+
+void		sort_4_high_low_b(p_a *ps)
+{
+	if (return_biggest_int_4(ps->b[0], ps->b[1], ps->b[2], ps->b[3]) == ps->b[0])
+	{
+		rotate_b(ps);
+		return (sort_3_high_low_b(ps));
+	}
+	else if (return_biggest_int_4(ps->b[0], ps->b[1], ps->b[2], ps->b[3]) == ps->b[1])
+	{
+		swap_b(ps);
+		rotate_b(ps);
+		return(sort_3_high_low_b(ps));
+	}
+	else if (return_biggest_int_4(ps->b[0], ps->b[1], ps->b[2], ps->b[3]) == ps->b[2])
+	{
+		push_a(ps);
+		swap_b(ps);
+		rotate_b(ps);
+		push_b(ps);
+		return(sort_3_high_low_b(ps));
+	}
+	else
+		return (worst_case_4_high_low_b(ps));
 }
 
 void		sort_4_not_alone_b(p_a *ps)
