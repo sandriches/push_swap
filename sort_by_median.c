@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/09 19:31:57 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/10 16:46:00 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,62 +389,65 @@ static void		push_into_place(p_a *ps, int stop_at)
 	rotate_a(ps);
 }
 
-static void	do_7_lines(p_a *ps, int *half_array_a, int *half_array_b)
+static void	do_7_lines(p_a *ps, int step, int count)
 {
 	int			stop_at;
-	static int	check_different;
 
-	if (!check_different)
-		check_different = 0;
 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
 	push_into_place(ps, stop_at);
-	// if (check_ab_7_lines(case, check_different) == 'a')
-	// 	push_amount_to_b(ps, half_array_a[3]);
-	// else
-		push_amount_to_b(ps, half_array_b[3]);
-	check_different++;
+	push_amount_to_b(ps, get_ab_case_value(ps, step, count));
 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
 	do_insert_4_sort(ps, 4);
 	push_into_place(ps, stop_at);
 }
 
-static void	big_loop_1(p_a *ps, int *half_array_a, int *half_array_b, int x)
+static void	big_loop_1(p_a *ps, int x)
 {
 	if (x == 1)
 	{
-		sort_by_med_a(ps, half_array_b[1], 1);
-		sort_by_med_b(ps, half_array_b[2], 0);
+		sort_by_med_a(ps, get_ab_case_value(ps, 1, 0), 1);
+		sort_by_med_b(ps, get_ab_case_value(ps, 1, 1), 0);
+		do_7_lines(ps, 1, 2);
 	}
 	else if (x == 2)
 	{
-		sort_by_med_a(ps, half_array_b[1], 1);
-		sort_by_med_b(ps, half_array_b[2], 0);
+		sort_by_med_a(ps, get_ab_case_value(ps, 2, 0), 1);
+		sort_by_med_b(ps, get_ab_case_value(ps, 2, 1), 0);
+		do_7_lines(ps, 2, 2);
 	}
 	else if (x == 3)
-		sort_by_med_a(ps, half_array_b[2], 1);
+	{
+		sort_by_med_a(ps, get_ab_case_value(ps, 3, 0), 1);
+		do_7_lines(ps, 3, 1);
+	}
 	else if (x == 7)
-		sort_by_med_a(ps, half_array_a[2], 1);
+	{
+		sort_by_med_a(ps, get_ab_case_value(ps, 7, 0), 1);
+		do_7_lines(ps, 7, 1);
+	}
 }
 
-static void	big_loop_2(p_a *ps, int *half_array_a, int *half_array_b, int x)
+static void	big_loop_2(p_a *ps, int x)
 {
-
 	if (x == 0)
 	{
-		sort_by_med_b(ps, half_array_b[0], 0);
-		sort_by_med_b(ps, half_array_b[1], 0);
-		sort_by_med_b(ps, half_array_b[2], 0);
+		sort_by_med_b(ps, get_ab_case_value(ps, 0, 0), 0);
+		sort_by_med_b(ps, get_ab_case_value(ps, 0, 1), 0);
+		sort_by_med_b(ps, get_ab_case_value(ps, 0, 2), 0);
+		do_7_lines(ps, 0, 3);
 	}
 	else if (x == 5)
 	{
-		sort_by_med_a(ps, half_array_a[1], 1);
-		sort_by_med_b(ps, half_array_a[2], 1);
+		sort_by_med_a(ps, get_ab_case_value(ps, 5, 0), 1);
+		sort_by_med_b(ps, get_ab_case_value(ps, 5, 1), 1);
+		do_7_lines(ps, 5, 2);
 	}
 	else if (x == 6)
 	{
-		sort_by_med_a(ps, half_array_b[1], 1);
-		sort_by_med_b(ps, half_array_b[2], 1);
+		sort_by_med_a(ps, get_ab_case_value(ps, 6, 0), 1);
+		sort_by_med_b(ps, get_ab_case_value(ps, 6, 1), 1);
+		do_7_lines(ps, 6, 2);
 	}
 }
 
@@ -457,118 +460,137 @@ void		sort_by_median_over_200(p_a *ps)
 	int z;
 	int stop_at;
 
-	half_array_a = make_halving_array(ps->size, 'a');
-	half_array_b = make_halving_array(ps->size, 'b');
+	ps->half_array_a = make_halving_array(ps->size, 'a');
+	ps->half_array_b = make_halving_array(ps->size, 'b');
+	ps->w_case = get_case(ps->half_array_a, ps->half_array_b);
 	sort_by_med_a(ps, ps->size, 0);
 	x = 0;
 	y = 0;
 
-	// while (x < 8)
-	// {
-	// 	if (x == 0 || x == 5 || x == 6)
-	// 		big_loop_2(ps, half_array_a, half_array_b, x);
-	// 	else if (x == 1 || x == 2 || x == 3 || x == 7)
-	// 		big_loop_1(ps, half_array_a, half_array_b, x);
-	// 	else if (x == 4)
-	// 	{
-	// 		sort_by_med_a(ps, half_array_a[0], 1);
-	// 		sort_by_med_b(ps, half_array_b[1], 1);
-	// 		sort_by_med_b(ps, half_array_b[2], 1);
-	// 	}
-	// 	do_7_lines(ps, half_array_a, half_array_b);
-	// 	x++;
-	// }
+	while (x < 8)
+	{
+		if (x == 0 || x == 5 || x == 6)
+			big_loop_2(ps, x);
+		else if (x == 1 || x == 2 || x == 3 || x == 7)
+			big_loop_1(ps, x);
+		else if (x == 4)
+		{
+			sort_by_med_a(ps, get_ab_case_value(ps, 4, 0), 1);
+			sort_by_med_b(ps, get_ab_case_value(ps, 4, 1), 1);
+			sort_by_med_b(ps, get_ab_case_value(ps, 4, 2), 1);
+			do_7_lines(ps, 4, 3);
+		}
+		x++;
+	}
 
-/* 0 */
-	sort_by_med_b(ps, half_array_b[0], 0);
-	sort_by_med_b(ps, half_array_b[1], 0);
-	sort_by_med_b(ps, half_array_b[2], 0);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+	ft_printf("STEP 0: 0: %d\t1: %d\t2: %d\t3: %d\n", get_ab_case_value(ps, 0, 0), get_ab_case_value(ps, 0, 1), get_ab_case_value(ps, 0, 2), get_ab_case_value(ps, 0, 3));
 
-/* 1 */
-	sort_by_med_a(ps, half_array_b[1], 1);
-	sort_by_med_b(ps, half_array_b[2], 0);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+// /* 0 */
+	// sort_by_med_b(ps, get_ab_case_value(ps, 0, 0), 0);
+	// sort_by_med_b(ps, get_ab_case_value(ps, 0, 1), 0);
+	// sort_by_med_b(ps, get_ab_case_value(ps, 0, 2), 0);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
+	// push_amount_to_b(ps, ps->half_array_a[3]);
+	// stop_at = get_highest_from_stack(ps->b, ps->len_b);
+	// do_insert_4_sort(ps, 4);
+	// push_into_place(ps, stop_at);
 
-/* 2 */
-	sort_by_med_a(ps, half_array_a[1], 1);
-	sort_by_med_b(ps, half_array_b[2], 0);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
 
-/* 3 */
-	sort_by_med_a(ps, half_array_a[2], 1);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+// /* 1 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 1, 0), 1);
+	// sort_by_med_b(ps, get_ab_case(ps->w_case, 1, 1), 0);
+	// do_7_lines(ps, 1, 2);
 
-// /* 4 */
-	sort_by_med_a(ps, half_array_a[0], 1);
-	sort_by_med_b(ps, half_array_b[1], 1);
-	sort_by_med_b(ps, half_array_b[2], 1);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
 
-// // /* 5 */
-	sort_by_med_a(ps, half_array_b[1], 1);
-	sort_by_med_b(ps, half_array_b[2], 1);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+// /* 2 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 2, 0), 1);
+	// sort_by_med_b(ps, get_ab_case(ps->w_case, 2, 1), 0);
+	// do_7_lines(ps, 2, 2);
 
-// /* 6 */
-	sort_by_med_a(ps, half_array_a[1], 1);
-	sort_by_med_b(ps, half_array_b[2], 1);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
 
-// /* 7 */
-	sort_by_med_a(ps, half_array_a[2], 1);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, half_array_a[3]);
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
+// /* 3 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 3, 0), 1);
+	// do_7_lines(ps, 3, 1);
 
-	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", half_array_a[0], half_array_a[1], half_array_a[2], half_array_a[3]);
-	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", half_array_b[0], half_array_b[1], half_array_b[2], half_array_b[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+
+// // /* 4 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 4, 0), 1);
+	// sort_by_med_b(ps, get_ab_case(ps->w_case, 4, 1), 1);
+	// sort_by_med_b(ps, get_ab_case(ps->w_case, 4, 2), 1);
+	// do_7_lines(ps, 4, 3);
+
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+
+// // // /* 5 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 5, 0), 1);
+	// sort_by_med_b(ps, get_ab_case(ps->w_case, 5, 1), 1);
+	// do_7_lines(ps, 5, 2);
+
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+
+// // /* 6 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 6, 0), 1);
+	// sort_by_med_b(ps, get_ab_case(ps->w_case, 6, 1), 1);
+	// do_7_lines(ps, 6, 2);
+
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+
+// // /* 7 */
+	// sort_by_med_a(ps, get_ab_case(ps->w_case, 7, 0), 1);
+	// do_7_lines(ps, 7, 1);
+
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, half_array_a[3]);
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+
+	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", ps->half_array_a[0], ps->half_array_a[1], ps->half_array_a[2], ps->half_array_a[3]);
+	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", ps->half_array_b[0], ps->half_array_b[1], ps->half_array_b[2], ps->half_array_b[3]);
+	ft_printf("w_case: %d\n", ps->w_case);
 }
 
 void		sort_by_median(p_a *ps)

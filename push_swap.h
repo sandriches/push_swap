@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/09 20:13:19 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/10 16:16:57 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct	push_swap
 {
 	int	*a;
 	int	*b;
+	int *half_array_a;
+	int *half_array_b;
 	int size;
 	int len_a;
 	int len_b;
@@ -63,6 +65,7 @@ typedef struct	push_swap
 	int ret;
 	int print_stacks;
 	int print_commands;
+	int w_case;
 }				p_a;
 
 typedef struct	find_medium
@@ -156,6 +159,8 @@ void		ft_ps_half_500(p_a *ps, int size);
 
 
 char	get_ab_case(int w_case, int step, int count);
+int		get_ab_case_value(p_a *ps, int step, int count);
+int		get_case(int *a, int *b);
 
 
 

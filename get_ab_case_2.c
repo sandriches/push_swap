@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/09 20:13:54 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/09 20:26:29 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/10 16:35:50 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	get_case_5(int step, int count)
 		return ('b');
 	else if (step == 2 && count != 2)
 		return ('b');
-	else if (step == 4 && (count == 0 || count == 3))
+	else if (step == 4 && (count == 1 || count == 2))
 		return ('b');
 	return ('a');
 }
