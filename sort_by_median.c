@@ -78,11 +78,11 @@ void		sort_by_med_b(p_a *ps, int loops, int inoffensive)
 		ft_printf("median: %d\n", median);
 		if (lookahead_how_many_bigger(0, median, ps, loops) == 0)
 			return (undo_rotates(ps, rotated, 'b', inoffensive));
-		if (ps->b[0] > median)
-		// if ((loops % 2 == 1) ? ps->b[0] >= median : ps->b[0] > median)
+		// if (ps->b[0] > median)
+		if ((loops % 2 == 1) ? ps->b[0] >= median : ps->b[0] > median)
 			push_a(ps);
-		// else if ((loops % 2 == 1) ? ps->b[0] < median : ps->b[0] <= median)
-		else if (ps->b[0] <= median)
+		else if ((loops % 2 == 1) ? ps->b[0] < median : ps->b[0] <= median)
+		// else if (ps->b[0] <= median)
 		{
 			check_rotate(ps, 'b');
 			rotated++;
