@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/09 17:03:47 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/11 18:20:11 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,8 +486,10 @@ void	start_struct(int argc, char **args)
 	// start_sort(ps);
 	// sort_6(ps);
 	// sort_by_median(ps);
+	// sort_by_med_a(ps, ps->len_a, 0);
+	// get_x_from_stack(ps, 125, ps->len_b, 'b');
 	sort_by_median_over_200(ps);
-	// ft_ps_half_500(ps, ps->size);
+	// ft_ps_half_100(ps, ps->size);
 	print_arrays(ps);
 	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {YELLOW}%d{/}\n", ps->size, ps->ret);
 	if (find_unordered_ascending(ps->a, ps->len_a) == 0 && ps->len_b == 0)

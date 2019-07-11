@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/10 16:16:57 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/11 20:07:20 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ typedef struct	push_swap
 {
 	int	*a;
 	int	*b;
-	int *half_array_a;
-	int *half_array_b;
+	int *h_a;
+	int *h_b;
 	int size;
 	int len_a;
 	int len_b;
@@ -105,8 +105,10 @@ int			find_unordered_ascending(int *stack, int size);
 void		sort_4_not_alone_b(p_a *ps);
 void		sort_4_not_alone_a(p_a *ps);
 void		sort_3_not_alone_b(p_a *ps);
-
 void		sort_4_high_low_b(p_a *ps);
+
+void	get_x_from_stack_a(p_a *ps, int amount, int loop_over, int inoffensive);
+void	get_x_from_stack_b(p_a *ps, int amount, int loop_over, int inoffensive);
 
 void		phill_struct(int *value, int *index, int *new_value, int *new_index);
 int			find_median(int *stack, int size);
@@ -123,6 +125,10 @@ int		check_r_rotate(p_a *ps, char which_stack);
 void		check_swap(p_a *ps, char which_stack);
 
 void        sort_by_median(p_a *ps);
+void		sort_by_med_b(p_a *ps, int loops, int inoffensive);
+void		sort_by_med_a(p_a *ps, int loops, int inoffensive);
+
+
 
 int		lookahead_how_many_bigger(int x, int median, p_a *ps, int amount_to_search);
 int		lookahead_how_many_smaller(int x, int median, p_a *ps, int amount_to_search);
@@ -158,10 +164,7 @@ void		ft_ps_half_100(p_a *ps, int size);
 void		ft_ps_half_500(p_a *ps, int size);
 
 
-char	get_ab_case(int w_case, int step, int count);
-int		get_ab_case_value(p_a *ps, int step, int count);
-int		get_case(int *a, int *b);
-
+int		get_num(p_a *ps, int step);
 
 
 
