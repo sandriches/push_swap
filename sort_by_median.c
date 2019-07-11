@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/25 12:03:38 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/11 20:20:35 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/12 00:32:39 by sandRICH      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,99 +391,99 @@ static void		push_into_place(p_a *ps, int stop_at)
 	rotate_a(ps);
 }
 
-static void	do_7_lines(p_a *ps)
-{
-	int			stop_at;
+// static void	do_7_lines(p_a *ps)
+// {
+// 	int			stop_at;
 
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-	push_amount_to_b(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]));
-	stop_at = get_highest_from_stack(ps->b, ps->len_b);
-	do_insert_4_sort(ps, 4);
-	push_into_place(ps, stop_at);
-}
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// 	push_amount_to_b(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]));
+// 	stop_at = get_highest_from_stack(ps->b, ps->len_b);
+// 	do_insert_4_sort(ps, 4);
+// 	push_into_place(ps, stop_at);
+// }
 
-static void	big_loop_1(p_a *ps, int x)
-{
-	if (x == 1)
-	{
-		get_x_from_stack_a(ps, get_final_num(ps->h_a[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 0);
-		get_x_from_stack_b(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
-		do_7_lines(ps);
-	}
-	else if (x == 2)
-	{
-		get_x_from_stack_a(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 0);
-		get_x_from_stack_b(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
-		// do_7_lines(ps);
-	}
-	else if (x == 3)
-	{
-		get_x_from_stack_a(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
-		do_7_lines(ps);
-	}
-	else if (x == 7)
-	{
-		get_x_from_stack_a(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
-		do_7_lines(ps);
-	}
-}
+// static void	big_loop_1(p_a *ps, int x)
+// {
+// 	if (x == 1)
+// 	{
+// 		get_x_from_stack_a(ps, get_final_num(ps->h_a[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 0);
+// 		get_x_from_stack_b(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
+// 		do_7_lines(ps);
+// 	}
+// 	else if (x == 2)
+// 	{
+// 		get_x_from_stack_a(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 0);
+// 		get_x_from_stack_b(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
+// 		// do_7_lines(ps);
+// 	}
+// 	else if (x == 3)
+// 	{
+// 		get_x_from_stack_a(ps, get_final_num(ps->h_a[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
+// 		do_7_lines(ps);
+// 	}
+// 	else if (x == 7)
+// 	{
+// 		get_x_from_stack_a(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
+// 		do_7_lines(ps);
+// 	}
+// }
 
-static void	big_loop_2(p_a *ps, int x)
-{
-	if (x == 0)
-	{
-		get_x_from_stack_b(ps, get_num(ps, 0), ps->len_b, 1);
-		get_x_from_stack_b(ps, get_final_num(ps->h_a[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 1);
-		get_x_from_stack_b(ps, get_num(ps, 2), ps->len_b, 1);
-		do_7_lines(ps);
-	}
-	else if (x == 5)
-	{
-		get_x_from_stack_a(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 1);
-		get_x_from_stack_b(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
-		do_7_lines(ps);
-	}
-	else if (x == 6)
-	{
-		get_x_from_stack_a(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 1);
-		get_x_from_stack_b(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 1);
-		do_7_lines(ps);
-	}
-}
+// static void	big_loop_2(p_a *ps, int x)
+// {
+// 	if (x == 0)
+// 	{
+// 		get_x_from_stack_b(ps, get_num(ps, 0), ps->len_b, 1);
+// 		get_x_from_stack_b(ps, get_final_num(ps->h_a[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 1);
+// 		get_x_from_stack_b(ps, get_num(ps, 2), ps->len_b, 1);
+// 		do_7_lines(ps);
+// 	}
+// 	else if (x == 5)
+// 	{
+// 		get_x_from_stack_a(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 1);
+// 		get_x_from_stack_b(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
+// 		do_7_lines(ps);
+// 	}
+// 	else if (x == 6)
+// 	{
+// 		get_x_from_stack_a(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 1);
+// 		get_x_from_stack_b(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 1);
+// 		do_7_lines(ps);
+// 	}
+// }
 
-void		sort_by_median_over_200(p_a *ps)
-{
-	int	*half_array_a;
-	int *half_array_b;
-	int x;
-	int y;
-	int z;
-	int stop_at;
+// void		sort_by_median_over_200(p_a *ps)
+// {
+// 	int	*half_array_a;
+// 	int *half_array_b;
+// 	int x;
+// 	int y;
+// 	int z;
+// 	int stop_at;
 
-	ps->h_a = make_halving_array(ps->size, 'a');
-	ps->h_b = make_halving_array(ps->size, 'b');
-	// ps->w_case = get_case(ps->h_a, ps->h_b);
-	get_x_from_stack_a(ps, 250, ps->len_a, 0);
-	x = 0;
-	y = 0;
+// 	ps->h_a = make_halving_array(ps->size, 'a');
+// 	ps->h_b = make_halving_array(ps->size, 'b');
+// 	// ps->w_case = get_case(ps->h_a, ps->h_b);
+// 	get_x_from_stack_a(ps, 250, ps->len_a, 0);
+// 	x = 0;
+// 	y = 0;
 
-	while (x < 3)
-	{
-		if (x == 0 || x == 5 || x == 6)
-			big_loop_2(ps, x);
-		else if (x == 1 || x == 2 || x == 3 || x == 7)
-			big_loop_1(ps, x);
-		else if (x == 4)
-		{
-			get_x_from_stack_a(ps, get_final_num(ps->h_b[0], ps->h_a[1], ps->h_b[1]), ps->len_b, 0);
-			get_x_from_stack_b(ps, get_final_num(ps->h_b[1], ps->h_a[2], ps->h_b[2]), ps->len_b, 0);
-			get_x_from_stack_b(ps, get_final_num(ps->h_b[2], ps->h_a[3], ps->h_b[3]), ps->len_b, 0);
-			do_7_lines(ps);
-		}
-		x++;
-	}
+	// while (x < 3)
+	// {
+	// 	if (x == 0 || x == 5 || x == 6)
+	// 		big_loop_2(ps, x);
+	// 	else if (x == 1 || x == 2 || x == 3 || x == 7)
+	// 		big_loop_1(ps, x);
+	// 	else if (x == 4)
+	// 	{
+	// 		get_x_from_stack_a(ps, 3, ps->len_b, 0);
+	// 		get_x_from_stack_b(ps, 3, ps->len_b, 0);
+	// 		get_x_from_stack_b(ps, 3, ps->len_b, 0);
+	// 		do_7_lines(ps);
+	// 	}
+	// 	x++;
+	// }
 
 	// ft_printf("STEP 0: 0: %d\t1: %d\t2: %d\t3: %d\n", get_ab_case_value(ps, 0, 0), get_ab_case_value(ps, 0, 1), get_ab_case_value(ps, 0, 2), get_ab_case_value(ps, 0, 3));
 
@@ -605,10 +605,10 @@ void		sort_by_median_over_200(p_a *ps)
 	// push_into_place(ps, stop_at);
 
 
-	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", ps->h_a[0], ps->h_a[1], ps->h_a[2], ps->h_a[3]);
-	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", ps->h_b[0], ps->h_b[1], ps->h_b[2], ps->h_b[3]);
-	ft_printf("w_case: %d\n", ps->w_case);
-}
+// 	ft_printf("half_arrayA[0]: %d\tA[1]: %d\tA[2]: %d\tA[3]: %d\n", ps->h_a[0], ps->h_a[1], ps->h_a[2], ps->h_a[3]);
+// 	ft_printf("half_arrayB[0]: %d\tB[1]: %d\tB[2]: %d\tB[3]: %d\n", ps->h_b[0], ps->h_b[1], ps->h_b[2], ps->h_b[3]);
+// 	ft_printf("w_case: %d\n", ps->w_case);
+// }
 
 void		sort_by_median(p_a *ps)
 {

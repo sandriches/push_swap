@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:23:10 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/11 20:07:20 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/12 00:28:36 by sandRICH      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ void		ft_ps_half_500(p_a *ps, int size);
 
 int		get_num(p_a *ps, int step);
 
+void easy_peasy(p_a * ps);
 
 
 int		check_errors(int argc, char **argv);

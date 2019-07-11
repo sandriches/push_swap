@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/11 18:20:11 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/12 01:10:05 by sandRICH      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,221 +188,221 @@ static int			*fill_ordered_stack(int *stack, int *ordered_stack, int size)
 	return (ordered_stack);
 }
 
-static int		find_position_to_place(p_a *ps, char which_stack, int to_place)
-{
-	int x;
+// static int		find_position_to_place(p_a *ps, char which_stack, int to_place)
+// {
+// 	int x;
 
-	x = 0;
-	if (which_stack == 'a')
-	{
-		while (x < ps->len_a)
-		{
-			if (to_place < ps->a[x])
-				return (x);
-			x++;
-		}
-	}
-	else
-	{
-		while (x < ps->len_b)
-		{
-			if (to_place > ps->b[x])
-				return (x);
-			x++;
-		}
-	}
-	return (x);
-}
+// 	x = 0;
+// 	if (which_stack == 'a')
+// 	{
+// 		while (x < ps->len_a)
+// 		{
+// 			if (to_place < ps->a[x])
+// 				return (x);
+// 			x++;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		while (x < ps->len_b)
+// 		{
+// 			if (to_place > ps->b[x])
+// 				return (x);
+// 			x++;
+// 		}
+// 	}
+// 	return (x);
+// }
 
-static void		place_one_a(p_a *ps)
-{
-	int x;
-	int pos_to_place;
+// static void		place_one_a(p_a *ps)
+// {
+// 	int x;
+// 	int pos_to_place;
 
-	x = 0;
-	pos_to_place = find_position_to_place(ps, 'a', ps->b[0]);
-	if (pos_to_place == 0)
-	{
-		push_a(ps);
-		return ;
-	}
-	else if (pos_to_place == 1)
-	{
-		push_a(ps);
-		check_swap(ps, 'a');
-	}
-//	ft_printf("position to place: %d\tstack size: %d\n", pos_to_place, ps->len_a);
-	if (pos_to_place > ps->len_a / 2)
-	{
-		while (x < pos_to_place)
-		{
-			reverse_a(ps);
-			x++;
-		}
-		push_a(ps);
-		while (x >= 0)
-		{
-			rotate_a(ps);
-			x--;
-		}
-	}
-	else
-	{
-		while (x < pos_to_place)
-		{
-			rotate_a(ps);
-			x++;
-		}
-		push_a(ps);
-		while (x > 0)
-		{
-			reverse_a(ps);
-			x--;
-		}
-	}
-}
+// 	x = 0;
+// 	pos_to_place = find_position_to_place(ps, 'a', ps->b[0]);
+// 	if (pos_to_place == 0)
+// 	{
+// 		push_a(ps);
+// 		return ;
+// 	}
+// 	else if (pos_to_place == 1)
+// 	{
+// 		push_a(ps);
+// 		check_swap(ps, 'a');
+// 	}
+// //	ft_printf("position to place: %d\tstack size: %d\n", pos_to_place, ps->len_a);
+// 	if (pos_to_place > ps->len_a / 2)
+// 	{
+// 		while (x < pos_to_place)
+// 		{
+// 			reverse_a(ps);
+// 			x++;
+// 		}
+// 		push_a(ps);
+// 		while (x >= 0)
+// 		{
+// 			rotate_a(ps);
+// 			x--;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		while (x < pos_to_place)
+// 		{
+// 			rotate_a(ps);
+// 			x++;
+// 		}
+// 		push_a(ps);
+// 		while (x > 0)
+// 		{
+// 			reverse_a(ps);
+// 			x--;
+// 		}
+// 	}
+// }
 
-static void		place_one_b(p_a *ps)
-{
-	int x;
-	int pos_to_place;
+// static void		place_one_b(p_a *ps)
+// {
+// 	int x;
+// 	int pos_to_place;
 
-	x = 0;
-	pos_to_place = find_position_to_place(ps, 'b', ps->a[0]);
-	if (pos_to_place == 0)
-	{
-		push_b(ps);
-		return ;
-	}
-	else if (pos_to_place == 1)
-	{
-		push_b(ps);
-		check_swap(ps, 'b');
-	}
-//	ft_printf("position to place: %d\tstack size: %d\n", pos_to_place, ps->len_b);
-	if (pos_to_place > ps->len_b / 2)
-	{
-		while (x < pos_to_place)
-		{
-			rotate_b(ps);
-			x++;
-		}
-		push_b(ps);
-		while (x >= 0)
-		{
-			reverse_b(ps);
-			x--;
-		}
-	}
-	else
-	{
-		while (x < pos_to_place)
-		{
-			reverse_b(ps);
-			x++;
-		}
-		push_b(ps);
-		while (x > 0)
-		{
-			rotate_b(ps);
-			x--;
-		}
-	}
-}
+// 	x = 0;
+// 	pos_to_place = find_position_to_place(ps, 'b', ps->a[0]);
+// 	if (pos_to_place == 0)
+// 	{
+// 		push_b(ps);
+// 		return ;
+// 	}
+// 	else if (pos_to_place == 1)
+// 	{
+// 		push_b(ps);
+// 		check_swap(ps, 'b');
+// 	}
+// //	ft_printf("position to place: %d\tstack size: %d\n", pos_to_place, ps->len_b);
+// 	if (pos_to_place > ps->len_b / 2)
+// 	{
+// 		while (x < pos_to_place)
+// 		{
+// 			rotate_b(ps);
+// 			x++;
+// 		}
+// 		push_b(ps);
+// 		while (x >= 0)
+// 		{
+// 			reverse_b(ps);
+// 			x--;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		while (x < pos_to_place)
+// 		{
+// 			reverse_b(ps);
+// 			x++;
+// 		}
+// 		push_b(ps);
+// 		while (x > 0)
+// 		{
+// 			rotate_b(ps);
+// 			x--;
+// 		}
+// 	}
+// }
 
-void	sort_by_median_a(p_a *ps)
-{
-	int x;
-	int median;
-	int loops;
-	int pushed;
+// void	sort_by_median_a(p_a *ps)
+// {
+// 	int x;
+// 	int median;
+// 	int loops;
+// 	int pushed;
 
-	pushed = 0;
-	loops = ps->len_a;
-	median = find_median(ps->a, ps->len_a);
-//	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
-	x = 0;
-	while (x < loops)
-	{
-		// if (lookahead_how_many_smaller(x, median, ps) == 0)
-		// 	break ;
-		// else if (lookahead_how_many_smaller(x, median, ps) == 1 && ps->len_a == 3)
-		// 	break ;
-		if (ps->a[0] < median)
-		{
-			if (ps->len_b > 1 && find_unordered_descending(ps->b, ps->len_b) == 0)
-			{
-				place_one_b(ps);
-			}
-			else
-				push_b(ps);
-		}
-		else 
-			rotate_a(ps);
-		x++;
-	}
-}
+// 	pushed = 0;
+// 	loops = ps->len_a;
+// 	median = find_median(ps->a, ps->len_a);
+// //	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
+// 	x = 0;
+// 	while (x < loops)
+// 	{
+// 		// if (lookahead_how_many_smaller(x, median, ps) == 0)
+// 		// 	break ;
+// 		// else if (lookahead_how_many_smaller(x, median, ps) == 1 && ps->len_a == 3)
+// 		// 	break ;
+// 		if (ps->a[0] < median)
+// 		{
+// 			if (ps->len_b > 1 && find_unordered_descending(ps->b, ps->len_b) == 0)
+// 			{
+// 				place_one_b(ps);
+// 			}
+// 			else
+// 				push_b(ps);
+// 		}
+// 		else 
+// 			rotate_a(ps);
+// 		x++;
+// 	}
+// }
 
-void	sort_by_median_b(p_a *ps)
-{
-	int x;
-	int median;
-	int loops;
+// void	sort_by_median_b(p_a *ps)
+// {
+// 	int x;
+// 	int median;
+// 	int loops;
 
-	loops = ps->len_b;
-	x = 0;
-	median = find_median(ps->b, ps->len_b);
-//	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
-	while (x < loops)
-	{
-		// if (lookahead_how_many_bigger(x, median, ps) == 0)
-		// 	break ;
-		// else if (lookahead_how_many_bigger(x, median, ps) == 1 && ps->len_b == 3)
-		// 	break ;
-		if (ps->b[0] > median)
-		{
-			if (ps->len_a > 1 && find_unordered_ascending(ps->a, ps->len_a) == 0)
-			{
-				place_one_a(ps);
-			}
-			else
-				push_a(ps);
-		}
-		else
-			rotate_b(ps);
-		x++;
-	}
-}
+// 	loops = ps->len_b;
+// 	x = 0;
+// 	median = find_median(ps->b, ps->len_b);
+// //	ft_printf("median[A]: %d\tloops: %d\n", median, loops);
+// 	while (x < loops)
+// 	{
+// 		// if (lookahead_how_many_bigger(x, median, ps) == 0)
+// 		// 	break ;
+// 		// else if (lookahead_how_many_bigger(x, median, ps) == 1 && ps->len_b == 3)
+// 		// 	break ;
+// 		if (ps->b[0] > median)
+// 		{
+// 			if (ps->len_a > 1 && find_unordered_ascending(ps->a, ps->len_a) == 0)
+// 			{
+// 				place_one_a(ps);
+// 			}
+// 			else
+// 				push_a(ps);
+// 		}
+// 		else
+// 			rotate_b(ps);
+// 		x++;
+// 	}
+// }
 
-void	sort_2_or_3_alone_b(p_a *ps)
-{
-	if (ps->len_b == 2 && ps->b[0] < ps->b[1])
-		check_swap(ps, 'b');
-	else if (ps->len_b == 3)
-	{
-		if (ps->b[0] < ps->b[1] && ps->b[0] < ps->b[2])
-			rotate_b(ps);
-		else if (ps->b[1] < ps->b[0] && ps->b[1] < ps->b[2])
-			reverse_b(ps);
-		if (ps->b[0] < ps->b[1])
-			check_swap(ps, 'b');
-	}
-}
+// void	sort_2_or_3_alone_b(p_a *ps)
+// {
+// 	if (ps->len_b == 2 && ps->b[0] < ps->b[1])
+// 		check_swap(ps, 'b');
+// 	else if (ps->len_b == 3)
+// 	{
+// 		if (ps->b[0] < ps->b[1] && ps->b[0] < ps->b[2])
+// 			rotate_b(ps);
+// 		else if (ps->b[1] < ps->b[0] && ps->b[1] < ps->b[2])
+// 			reverse_b(ps);
+// 		if (ps->b[0] < ps->b[1])
+// 			check_swap(ps, 'b');
+// 	}
+// }
 
-void	sort_2_or_3_alone_a(p_a *ps)
-{
-	if (ps->len_a == 2 && ps->a[0] > ps->a[1])
-		check_swap(ps, 'a');
-	else if (ps->len_a == 3)
-	{
-		if (ps->a[0] > ps->a[1] && ps->a[0] > ps->a[2])
-			rotate_a(ps);
-		else if (ps->a[1] > ps->a[0] && ps->a[1] > ps->a[2])
-			reverse_a(ps);
-		if (ps->a[0] > ps->a[1])
-			check_swap(ps, 'a');
-	}
-}
+// void	sort_2_or_3_alone_a(p_a *ps)
+// {
+// 	if (ps->len_a == 2 && ps->a[0] > ps->a[1])
+// 		check_swap(ps, 'a');
+// 	else if (ps->len_a == 3)
+// 	{
+// 		if (ps->a[0] > ps->a[1] && ps->a[0] > ps->a[2])
+// 			rotate_a(ps);
+// 		else if (ps->a[1] > ps->a[0] && ps->a[1] > ps->a[2])
+// 			reverse_a(ps);
+// 		if (ps->a[0] > ps->a[1])
+// 			check_swap(ps, 'a');
+// 	}
+// }
 
 static void		push_rest_to_a(p_a *ps)
 {
@@ -473,10 +473,10 @@ void	start_struct(int argc, char **args)
 	ps->a = (int *)malloc(sizeof(int) * ps->len_a);
 	ps->b = (int *)malloc(sizeof(int) * ps->len_a);
 //	ps->ordered_stack = fill_ordered_stack()
-	ps->print_stacks = 0;
+	ps->print_stacks = 1;
 	fill_arrays(ps, args);
-	head = make_tree(ps, head);
-	add_order(head);
+	// head = make_tree(ps, head);
+	// add_order(head);
 	print_arrays(ps);
 //	ps_quicksort(ps, 'a');
 	// ps_insertion_sort_a_3(ps);
@@ -488,7 +488,8 @@ void	start_struct(int argc, char **args)
 	// sort_by_median(ps);
 	// sort_by_med_a(ps, ps->len_a, 0);
 	// get_x_from_stack(ps, 125, ps->len_b, 'b');
-	sort_by_median_over_200(ps);
+	// sort_by_median_over_200(ps);
+	easy_peasy(ps);
 	// ft_ps_half_100(ps, ps->size);
 	print_arrays(ps);
 	ft_printf("\n\nARGUMENTS: {BLUE}%d{/}\nTOTAL COUNT: {YELLOW}%d{/}\n", ps->size, ps->ret);
