@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/12 02:05:09 by sandRICH      ########   odam.nl         */
+/*   Updated: 2019/07/12 16:11:29 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,29 @@ int		command_to_op(char *str, p_a *ps)
 	return (1);
 }
 
-void	start_program(p_a *ps)
-{
-	int		ret;
-	int		command;
-	char	str[25];
+// void	start_program(p_a *ps)
+// {
+// 	int		ret;
+// 	int		command;
+// 	char	str[25];
 
-	ret = 0;
-	print_arrays(ps);
-	while (ft_strcmp(str, "q") != 0)
-	{
-		ft_strclr(str);
-//		ft_printf("size of a: %d\n", find_size(ps->a));
-		// ft_printf("median: %d\n", find_median(ps->a, find_size(ps->a)));
-		ft_printf("Moves: %d\n\n", ret);
-		ft_printf("[q to quit, - to moves--] ENTER COMMAND: ");
-		scanf("%s", str);
-		command = command_to_op(str, ps);
-		if (command == 1)
-			ret++;
-		if (ft_strcmp(str, "-") == 0)
-			ret--;
-	}
-}
+// 	ret = 0;
+// 	print_arrays(ps);
+// 	while (ft_strcmp(str, "q") != 0)
+// 	{
+// 		ft_strclr(str);
+// //		ft_printf("size of a: %d\n", find_size(ps->a));
+// 		// ft_printf("median: %d\n", find_median(ps->a, find_size(ps->a)));
+// 		ft_printf("Moves: %d\n\n", ret);
+// 		ft_printf("[q to quit, - to moves--] ENTER COMMAND: ");
+// 		scanf("%s", str);
+// 		command = command_to_op(str, ps);
+// 		if (command == 1)
+// 			ret++;
+// 		if (ft_strcmp(str, "-") == 0)
+// 			ret--;
+// 	}
+// }
 
 
 
@@ -89,19 +89,19 @@ void		traverse_tree(m_struct *iterate, m_struct *new)
 		traverse_tree(iterate->lower, new);
 }
 
-m_struct	*find_node(m_struct *head, int data)
-{
-	if (!head)
-		return (0);
-	if (head->data == data)
-		return (head);
-	else if (data > head->data)
-		return (find_node(head->higher, data));
-	else if (data < head->data)
-		return (find_node(head->lower, data));
-//	else
-//		return (0);
-}
+// m_struct	*find_node(m_struct *head, int data)
+// {
+// 	if (!head)
+// 		return (0);
+// 	if (head->data == data)
+// 		return (head);
+// 	else if (data > head->data)
+// 		return (find_node(head->higher, data));
+// 	else if (data < head->data)
+// 		return (find_node(head->lower, data));
+// //	else
+// //		return (0);
+// }
 
 void		add_order(m_struct *head)
 {
@@ -413,47 +413,47 @@ static void		push_rest_to_a(p_a *ps)
 		push_a(ps);
 }
 
-static void		start_sort(p_a *ps)
-{
-	int unordered_a;
-	int unordered_b;
+// static void		start_sort(p_a *ps)
+// {
+// 	int unordered_a;
+// 	int unordered_b;
 
-	unordered_a = find_unordered_ascending(ps->a, ps->len_a);
-	unordered_b = find_unordered_descending(ps->b, ps->len_b);
-	if (is_finished(ps) == 1)
-	{
-		// ft_printf("DONE\n");
-		return ;
-	}
-	if (unordered_a == 0 && unordered_b == 0)
-	{
-		ft_printf("PUSH ALL TO A\n");
-		push_rest_to_a(ps);
-	}
-	else if (ps->len_a > 3 && unordered_a > 0)
-	{
-		ft_printf("SORT BY MEDIAN - STACK A\n");
-		sort_by_median_a(ps);
-	}
-	else if (ps->len_b <= 3 && unordered_b > 0)
-	{
-		ft_printf("SORT BY 2/3 - STACK B\n");
-		sort_2_or_3_alone_b(ps);
-	}
-	else if (unordered_a == 0)
-	{
-		ft_printf("SORT BY MEDIAN - STACK B\n");
-		sort_by_median_b(ps);
-	}
-	else if (ps->len_a <= 3 && unordered_a > 0)
-	{
-		ft_printf("SORT BY 2/3 - STACK A\n");
-		sort_2_or_3_alone_a(ps);
-	}
-//	i++;
-//	if (i < 500)
-	start_sort(ps);
-}
+// 	unordered_a = find_unordered_ascending(ps->a, ps->len_a);
+// 	unordered_b = find_unordered_descending(ps->b, ps->len_b);
+// 	if (is_finished(ps) == 1)
+// 	{
+// 		// ft_printf("DONE\n");
+// 		return ;
+// 	}
+// 	if (unordered_a == 0 && unordered_b == 0)
+// 	{
+// 		ft_printf("PUSH ALL TO A\n");
+// 		push_rest_to_a(ps);
+// 	}
+// 	else if (ps->len_a > 3 && unordered_a > 0)
+// 	{
+// 		ft_printf("SORT BY MEDIAN - STACK A\n");
+// 		sort_by_median_a(ps);
+// 	}
+// 	else if (ps->len_b <= 3 && unordered_b > 0)
+// 	{
+// 		ft_printf("SORT BY 2/3 - STACK B\n");
+// 		sort_2_or_3_alone_b(ps);
+// 	}
+// 	else if (unordered_a == 0)
+// 	{
+// 		ft_printf("SORT BY MEDIAN - STACK B\n");
+// 		sort_by_median_b(ps);
+// 	}
+// 	else if (ps->len_a <= 3 && unordered_a > 0)
+// 	{
+// 		ft_printf("SORT BY 2/3 - STACK A\n");
+// 		sort_2_or_3_alone_a(ps);
+// 	}
+// //	i++;
+// //	if (i < 500)
+// 	start_sort(ps);
+// }
 
 void	start_struct(int argc, char **args)
 {
@@ -473,7 +473,7 @@ void	start_struct(int argc, char **args)
 	ps->a = (int *)malloc(sizeof(int) * ps->len_a);
 	ps->b = (int *)malloc(sizeof(int) * ps->len_a);
 //	ps->ordered_stack = fill_ordered_stack()
-	ps->print_stacks = 0;
+	ps->print_stacks = 1;
 	fill_arrays(ps, args);
 	// head = make_tree(ps, head);
 	// add_order(head);

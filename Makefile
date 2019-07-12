@@ -6,13 +6,13 @@
 #    By: rcorke <rcorke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/01 19:10:09 by rcorke         #+#    #+#                 #
-#    Updated: 2019/07/12 02:31:32 by sandRICH      ########   odam.nl          #
+#    Updated: 2019/07/12 18:27:57 by rcorke        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= push_swap
 SOURCES= tester_push_swap.c do_ops.c libft/libft.a libftprintf.a ps_quicksort.c\
-		ps_insertion_sort.c sort_4.c ps_find_median.c sort_6.c check_doubles.c \
+		ps_find_median.c sort_6.c check_doubles.c \
 		lookahead_functions.c sort_by_median.c find_biggest_or_smallest.c \
 		sort_3_or_4_not_alone.c make_halving_array.c do_recursion.c \
 		grab_4.c grab_2.c get_highest_from_stack.c check_errors.c \
@@ -100,7 +100,9 @@ all:
 	# ./push_swap 8  47 3 48 17  38   1  11 49 43  28   9  33  31  30  15  13  36  24  18  22   6  37  45  25   7   5  26  34  44  14  35  23  20  42  12  29  21  27  10  41   2  16  19  40  39  32  46   4
 
 #20 ints
-	./push_swap   5   6   2   3  10  19  18  12  13   9   8   20   7   4  15  17  14  11  16   1
+	# ./push_swap   5   6   2   3  10  19  18  12  13   9   8   20   7   4  15  17  14  11  16   1
+	# ./push_swap	  20  14   4  19  10  11  12   6   8   2   1   9   7  17  18   3  13  16   5  15
+	./push_swap   5  12  13  19   8   3  20  11  17   6   4   1  16  15   2  10  14   7   9  18
 
 #6 ints
 	# ./push_swap 11 9 5 3 2 1
