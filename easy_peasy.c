@@ -6,7 +6,7 @@
 /*   By: sandRICH <sandRICH@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/12 00:12:23 by sandRICH       #+#    #+#                */
-/*   Updated: 2019/07/12 01:46:53 by sandRICH      ########   odam.nl         */
+/*   Updated: 2019/07/12 02:31:42 by sandRICH      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,39 @@ static void	swap_or_rotate(p_a *ps, char which_stack)
 {
 	if (which_stack == 'a')
 	{
-		if (ps->b[0] > ps->a[1])
+		push_b(ps);
+		if (ps->len_b <= 1)
 		{
-			push_b(ps);
-			rotate_b(ps);
-		}
-		else if (ps->b[0] > ps->a[0])
-		{
-			push_b(ps);
-			swap_b(ps);
+			if (ps->b[0] < ps->b[1])
+				rotate_b(ps);
 		}
 		else
-			push_b(ps);	
+		{
+			if (ps->b[0] < ps->b[2])
+				rotate_b(ps);
+			else if (ps->b[0] < ps->b[1])
+				swap_b(ps);
+		}
 	}
 	else
 	{
-		if (ps->a[0] > ps->b[1])
+		push_a(ps);
+		if (ps->len_a <= 1)
 		{
-			push_a(ps);
-			rotate_a(ps);
-		}
-		else if (ps->a[0] > ps->b[0])
-		{
-			push_a(ps);
-			swap_a(ps);
+			if (ps->a[0] > ps->a[1])
+				rotate_a(ps);
 		}
 		else
-			push_a(ps);
+		{
+			if (ps->a[0] > ps->a[2])
+				rotate_a(ps);
+			else if (ps->a[0] > ps->a[1])
+				swap_a(ps);
+		}
 	}
 }
 
-void easy_peasy(p_a * ps)
+void easy_peasy(p_a *ps)
 {
 	int x;
 	int y;
@@ -59,16 +61,12 @@ void easy_peasy(p_a * ps)
 	push_b(ps);
 	if (ps->b[0] > ps->b[1])
 		swap_b(ps);
-	while (y < stop + 10)
+	while (y < 1)
 	{
-		
 		while (ps->len_a > 0)
+			swap_or_rotate(ps, 'a');
+		while (ps->len_b > 0)
 			swap_or_rotate(ps, 'b');
-		while (x < stop)
-		{
-			push_a(ps);
-			x++;
-		}
 		// while (x < ps->size)
 		// {
 		// 	if (ps->a[0] > ps->a[1])
@@ -82,4 +80,6 @@ void easy_peasy(p_a * ps)
 		x = 0;
 		y++;
 	}
+	if (ps->a[0] > ps->a[1])
+		swap_a(ps);
 }

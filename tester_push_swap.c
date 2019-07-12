@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/01 17:22:36 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/12 01:10:05 by sandRICH      ########   odam.nl         */
+/*   Updated: 2019/07/12 02:05:09 by sandRICH      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -473,7 +473,7 @@ void	start_struct(int argc, char **args)
 	ps->a = (int *)malloc(sizeof(int) * ps->len_a);
 	ps->b = (int *)malloc(sizeof(int) * ps->len_a);
 //	ps->ordered_stack = fill_ordered_stack()
-	ps->print_stacks = 1;
+	ps->print_stacks = 0;
 	fill_arrays(ps, args);
 	// head = make_tree(ps, head);
 	// add_order(head);
