@@ -6,7 +6,7 @@
 /*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/08 17:02:12 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/09 18:34:53 by rcorke        ########   odam.nl         */
+/*   Updated: 2019/07/16 12:53:47 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int					find_median(int *stack, int size)
 	limits[0] = 2147483647;
 	limits[1] = -2147483648;
 	x = 0;
-	// ft_printf("IN FIND_MEDIAN, SIZE: %d\n", size);
 	while (x < size)
 	{
 		if (stack[x] < limits[0] && stack[x] > limits[1])
@@ -87,9 +86,3 @@ int					find_median(int *stack, int size)
 	free(limits);
 	return (-1);
 }
-
-// int main(void)
-// {
-// 	int stack[15] = {14, 12, 2, 5, 4, 1, 3, 10, 11, 9, 7, 8, 6, 15, 13};
-// 	ft_printf("%d\n", find_median(stack, 15));
-// }

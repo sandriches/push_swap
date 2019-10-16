@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ps_gnl.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: rcorke <rcorke@student.codam.nl>             +#+                     */
+/*   By: rcorke <marvin@codam.nl>                     +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/07/08 12:55:32 by rcorke         #+#    #+#                */
-/*   Updated: 2019/07/08 13:12:07 by rcorke        ########   odam.nl         */
+/*   Created: 2019/02/07 14:33:02 by rcorke         #+#    #+#                */
+/*   Updated: 2019/07/21 14:47:29 by rcorke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ static int		last_fill_line(char **leftover, char **line)
 
 static int		read_line(int fd, char **leftover, char **line)
 {
-	char	buf[501];
+	char	buf[101];
 	int		ret;
 	char	*tmp;
 
 	ret = 1;
 	while (ret > 0)
 	{
-		ret = read(fd, buf, 500);
+		ret = read(fd, buf, 100);
 		if (ret == -1)
 			return (-1);
 		if (ret == 0)
@@ -58,7 +58,7 @@ static int		read_line(int fd, char **leftover, char **line)
 		tmp = *leftover;
 		*leftover = ft_strjoin(*leftover, buf);
 		free(tmp);
-		if (ft_memchr(buf, '\n', ret) != NULL || ret < 500)
+		if (ft_memchr(buf, '\n', ret) != NULL || ret < 100)
 		{
 			*line = fill_line(leftover, line);
 			return (1);
@@ -69,13 +69,15 @@ static int		read_line(int fd, char **leftover, char **line)
 	return (0);
 }
 
-int				ps_gnl(const int fd, char **line)
+int				ps_get_next_line(const int fd, char **line)
 {
-	static char	*leftover;
+	static char		*leftover;
 	int				check;
 
 	if (!line)
 		return (-1);
+	if (!leftover)
+		leftover = ft_strnew(0);
 	check = read_line(fd, &leftover, line);
 	if (check == 0)
 		return (0);
