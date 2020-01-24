@@ -46,6 +46,6 @@ Here is an example script of how to run checker:
 ```
 #!/bin/bash
 LIST=(80 35 17 -442 1004 -23 95 -1423)
-./push_swap $(LIST) | ./checker $(LIST)
+./push_swap $LIST | ./checker $LIST
 ```
 The full information about this project can be found in the PDF.
